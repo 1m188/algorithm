@@ -1,0 +1,60 @@
+/*
+凑算式
+
+     B      DEF
+A + --- + ------- = 10
+     C      GHI
+     
+（如果显示有问题，可以参见【图1.jpg】）
+	 
+	 
+这个算式中A~I代表1~9的数字，不同的字母代表不同的数字。
+
+比如：
+6+8/3+952/714 就是一种解法，
+5+3/1+972/486 是另一种解法。
+
+这个算式一共有多少种解法？
+
+注意：你提交应该是个整数，不要填写任何多余的内容或说明性文字。
+*/
+
+#include "vector"
+#include "iostream"
+
+const int Cal(bool sign[9], std::vector<double> &num, int x = 0) //DFS深度优先搜索算法
+{
+    static int caseNum = 0;
+
+    if (x > 8)
+    {
+        if (num[0] + num[1] / num[2] + (100 * num[3] + 10 * num[4] + num[5]) / (100 * num[6] + 10 * num[7] + num[8]) == 10)
+        {
+            caseNum++;
+        }
+        return 0;
+    }
+
+    for (int i = 0; i < 9; i++)
+    {
+        if (!sign[i])
+        {
+            num.push_back(i + 1);
+            sign[i] = 1;
+            Cal(sign, num, x + 1);
+            sign[i] = 0;
+            num.pop_back();
+        }
+    }
+
+    return caseNum;
+}
+
+int main()
+{
+    bool sign[9]{};
+    std::vector<double> num;
+    std::cout << Cal(sign, num) << std::endl;
+
+    return 0;
+}
