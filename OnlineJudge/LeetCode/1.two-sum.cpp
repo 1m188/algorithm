@@ -23,11 +23,7 @@
  * 所以返回 [0, 1]
  * 
  * 
- */
-
-// #include "vector"
-
-// using namespace std;
+*/
 
 class Solution
 {
@@ -54,3 +50,6 @@ class Solution
         return vec;
     }
 };
+
+#include "vector"
+using namespace std;
