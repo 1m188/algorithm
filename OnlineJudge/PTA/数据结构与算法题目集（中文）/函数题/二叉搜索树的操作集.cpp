@@ -221,7 +221,7 @@ BinTree Delete(BinTree BST, ElementType X)
             {
                 BinTree t = FindMin(BST->Right);
                 BST->Data = t->Data;
-                BST->Right = Delete(BST->Right, t->Data);
+                Delete(BST->Right, t->Data);
             }
         }
     }
