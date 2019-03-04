@@ -46,22 +46,12 @@ class Solution
         }
         else
         {
-            int size = haystack.size(), needleSize = needle.size(), index = 0;
-            if (needleSize <= size)
+            int size = haystack.size(), needleSize = needle.size();
+            for (int i = 0; i < size; i++)
             {
-                for (int i = 0; i <= size - needleSize; i++)
+                if (haystack.substr(i, needleSize) == needle)
                 {
-                    for (int j = i; j < i + needleSize; j++)
-                    {
-                        if (haystack[j] != needle[index])
-                        {
-                            index = 0;
-                            goto next;
-                        }
-                        index++;
-                    }
                     return i;
-                next:;
                 }
             }
             return -1;
