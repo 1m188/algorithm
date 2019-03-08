@@ -38,11 +38,9 @@ class Solution
                 return -1;
             }
             int right = getLength(root->right);
+            if (right == -1)
             {
-                if (right == -1)
-                {
-                    return -1;
-                }
+                return -1;
             }
             return abs(left - right) <= 1 ? 1 + std::max(left, right) : -1;
         }
