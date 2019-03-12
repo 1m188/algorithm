@@ -33,7 +33,7 @@ int Length(List L);
 List MakeEmpty()
 {
     List l = (List)malloc(sizeof(struct LNode));
-    memset(l->Data, 0, MAXSIZE);
+    memset(l->Data, 0, sizeof(ElementType) * MAXSIZE);
     l->Last = -1;
     return l;
 }
