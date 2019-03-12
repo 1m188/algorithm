@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "memory.h"
+#include "string.h"
 
 //抽象存储的数据类型，以int为例
 typedef int ElementType;
