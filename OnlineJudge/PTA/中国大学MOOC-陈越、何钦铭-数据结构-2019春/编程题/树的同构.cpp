@@ -78,16 +78,14 @@ int main()
     std::cin >> N;
     for (int i = 0; i < N; i++)
     {
-        char a = '\0';
-        char b = 0, c = 0;
+        char a = '\0', b = '\0', c = '\0';
         std::cin >> a >> b >> c;
         vec1.push_back({a, b - '0', c - '0'});
     }
     std::cin >> N;
     for (int i = 0; i < N; i++)
     {
-        char a = '\0';
-        char b = 0, c = 0;
+        char a = '\0', b = '\0', c = '\0';
         std::cin >> a >> b >> c;
         vec2.push_back({a, b - '0', c - '0'});
     }
