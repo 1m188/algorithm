@@ -13,7 +13,7 @@
 注意：你提交的应该是一个整数，不要填写任何多余的内容或说明性文字。
 */
 
-public class Meiqiushumu {
+public class Main {
     public static void main(String[] args) {
         int num = 0;
         for (int i = 1; i <= 100; i++) {
@@ -22,7 +22,7 @@ public class Meiqiushumu {
         System.out.println(num);
     }
 
-    public static int sum(int x) {
+    private static int sum(int x) {
         int result = 0;
         for (int i = 1; i <= x; i++) {
             result += i;
