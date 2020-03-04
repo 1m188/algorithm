@@ -26,7 +26,7 @@
 注意：你提交的应该是一个整数，不要填写任何多余的内容或说明性文字。
 */
 
-public class Dajimu {
+public class Main {
 
     private static int[] blocks = new int[10];
     private static boolean[] digits = new boolean[10];
@@ -37,7 +37,7 @@ public class Dajimu {
         System.out.println(num);
     }
 
-    public static void dajimu(int index) {
+    private static void dajimu(int index) {
         if (index == 10) {
             num++;
         } else {
@@ -57,7 +57,7 @@ public class Dajimu {
         }
     }
 
-    public static boolean judge(int index) {
+    private static boolean judge(int index) {
         if (index < 4) {
             return true;
         } else if (index >= 4 && index < 7) {
