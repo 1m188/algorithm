@@ -59,7 +59,7 @@
 
 // 注意：不要填写任何已有内容或说明性文字。
 
-public class Main {
+public class _5 {
     public static void f(int[] a, int k, int n, String s) {
         if (k == a.length) {
             if (n == 0)

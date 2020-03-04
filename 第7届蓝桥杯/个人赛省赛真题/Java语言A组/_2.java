@@ -11,7 +11,7 @@
 注意：你提交的应该是一个整数，不要填写任何多余的内容或说明性文字。
 */
 
-public class Main {
+public class _2 {
     public static void main(String[] args) {
         for (int age = 0;; age++) {
             int sum = 0;

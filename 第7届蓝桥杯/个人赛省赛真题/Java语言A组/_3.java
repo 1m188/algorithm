@@ -26,7 +26,7 @@
 注意：你提交的应该是一个整数，不要填写任何多余的内容或说明性文字。
 */
 
-public class Main {
+public class _3 {
 
     private static int[] blocks = new int[10];
     private static boolean[] digits = new boolean[10];

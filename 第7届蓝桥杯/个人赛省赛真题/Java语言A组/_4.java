@@ -94,7 +94,7 @@
 
 // 注意：不要填写任何已有内容或说明性文字。
 
-public class Main {
+public class _4 {
     public static String remain(int[] a) {
         String s = "";
         for (int i = 0; i < a.length; i++) {

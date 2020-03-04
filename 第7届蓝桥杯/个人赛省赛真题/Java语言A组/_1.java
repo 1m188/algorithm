@@ -13,7 +13,7 @@
 注意：你提交的应该是一个整数，不要填写任何多余的内容或说明性文字。
 */
 
-public class Main {
+public class _1 {
     public static void main(String[] args) {
         int num = 0;
         for (int i = 1; i <= 100; i++) {
