@@ -72,7 +72,7 @@ int bindex(int vec[], int target, int left, int right)
             right = mid - 1;
         mid = (left + right) / 2;
     }
-    return vec[mid] < target ? mid + 1 : mid;
+    return vec[mid] <= target ? mid + 1 : mid;
 }
 
 // 折半插入排序
