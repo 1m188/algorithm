@@ -87,7 +87,7 @@ void quickSort(std::vector<T> &vec, int left, int right)
             vec[high--] = vec[low];
     }
     vec[low] = tmp;
-    quickSort(vec, left, low);
+    quickSort(vec, left, low - 1);
     quickSort(vec, low + 1, right);
 }
 
