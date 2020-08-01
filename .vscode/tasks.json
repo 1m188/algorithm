@@ -1,0 +1,114 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "java",
+            "type": "shell",
+            "command": "java",
+            "args": [
+                "${fileBasename}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "c-gnu",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}",
+                "-lm",
+                "&&",
+                "./${fileBasenameNoExtension}",
+                "&&",
+                "rm",
+                "${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "cpp-gnu",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}",
+                "&&",
+                "./${fileBasenameNoExtension}",
+                "&&",
+                "rm",
+                "${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "c-clang",
+            "type": "shell",
+            "command": "clang",
+            "args": [
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}",
+                "-lm",
+                "&&",
+                "./${fileBasenameNoExtension}",
+                "&&",
+                "rm",
+                "${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "cpp-clang",
+            "type": "shell",
+            "command": "clang++",
+            "args": [
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}",
+                "&&",
+                "./${fileBasenameNoExtension}",
+                "&&",
+                "rm",
+                "${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "py",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${fileBasename}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "label": "js",
+            "type": "shell",
+            "command": "node",
+            "args": [
+                "${fileBasename}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        }
+    ]
+}
