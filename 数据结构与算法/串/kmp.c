@@ -1,3 +1,9 @@
+/*
+
+2021王道数据结构 串
+
+*/
+
 #include "stdio.h"
 #include "string.h"
 
