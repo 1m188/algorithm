@@ -1,48 +1,81 @@
-//八皇后问题。在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法
+/*
 
-const int eightQueen(bool chess[8][8], int row = 0)
+八皇后问题。在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法
+
+*/
+
+#include "cmath"
+#include "iostream"
+#include "vector"
+
+/**************************************************************************************************************/
+
+// N皇后
+class NQueue
 {
-    static int caseNum = 0;
+private:
+    // 已存在皇后的坐标
+    std::vector<std::pair<int, int>> qp;
 
-    if (row >= 8)
+    // 总的方案数
+    int num = 0;
+
+    // 判定皇后位置是否被允许
+    bool isqpok(const std::pair<int, int> &p) const
     {
-        return 0;
+        for (const auto &e : qp)
+            //                   行列检测                                          对角检测
+            if (e.first == p.first || e.second == p.second || abs(e.first - p.first) == abs(e.second - p.second))
+                return false;
+
+        return true;
     }
 
-    for (int i = 0; i < 8; i++)
+    //N皇后
+    void nq(const int N, int r = 0)
     {
-        if (!chess[row][i])
+        if (r >= N)
+            num++;
+
+        for (int i = 0; i < N; i++)
         {
-            if (row > 0)
+            std::pair<int, int> p{i, r};
+            if (isqpok(p))
             {
-                for (int j = row - 1; j >= 0; j--)
-                {
-                    for (int k = 0; k < 8; k++)
-                    {
-                        if (chess[j][k])
-                        {
-                            if (k == i || (j - row > 0 ? j - row : row - j) == (k - i > 0 ? k - i : i - k))
-                            {
-                                goto next;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            chess[row][i] = 1;
-            eightQueen(chess, row + 1);
-            chess[row][i] = 0;
-            if (row == 7)
-            {
-                caseNum++;
+                qp.push_back(p);
+                nq(N, r + 1);
+                qp.pop_back();
             }
         }
-    next:;
     }
 
-    return caseNum;
+public:
+    NQueue() = default;
+    ~NQueue() = default;
+    NQueue(const NQueue &) = delete;
+    NQueue(const NQueue &&) = delete;
+    NQueue &operator=(const NQueue &) = delete;
+    NQueue &operator=(const NQueue &&) = delete;
+
+    int nQueue(int n)
+    {
+        if (n <= 0)
+            return 0;
+        qp.clear();
+        num = 0;
+        nq(n);
+        return num;
+    }
+};
+
+/**************************************************************************************************************/
+
+int main(int argc, char *argv[])
+{
+    NQueue nq;
+
+    std::cout << "8 queue: " << nq.nQueue(8) << '\n'
+              << "10 queue: " << nq.nQueue(10) << '\n';
+
+    return 0;
 }
