@@ -1,24 +1,37 @@
-//输入一个数组，实现一个函数，让所有奇数都在偶数前面
+/*
 
-#include "memory"
+输入一个数组，实现一个函数，让所有奇数都在偶数前面
 
-std::shared_ptr<int> odd_even_numSort(int *num, int N)
+*/
+
+#include "iostream"
+#include "vector"
+
+void odd_even_numSort(std::vector<int> &vec) // 一趟快排
 {
-    std::shared_ptr<int> newNum(new int[N]{0});
-    int j = 0;
-    for (int i = 0; i < N; i++)
+    int left = 0, right = vec.size() - 1;
+    int tmp = vec[left];
+    while (left < right)
     {
-        if (num[i] % 2 != 0)
-        {
-            newNum.get()[j++] = num[i];
-        }
+        while (left < right && vec[right] % 2 == 0)
+            right--;
+        if (left < right)
+            vec[left++] = vec[right];
+        while (left < right && vec[left] % 2 == 1)
+            left++;
+        if (left < right)
+            vec[right--] = vec[left];
     }
-    for (int i = 0; i < N; i++)
-    {
-        if (num[i] % 2 == 0)
-        {
-            newNum.get()[j++] = num[i];
-        }
-    }
-    return newNum;
+    vec[left] = tmp;
+}
+
+int main(int argc, char *argv[])
+{
+    std::vector<int> vec{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    odd_even_numSort(vec);
+    for (const int &e : vec)
+        std::cout << e << ' ';
+    std::cout << '\n';
+
+    return 0;
 }
