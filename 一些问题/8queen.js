@@ -4,9 +4,7 @@
 
 */
 
-/**
- * N皇后
- */
+/*** N皇后 */
 class NQueen {
 
     /*** 方案数目 */
@@ -21,7 +19,7 @@ class NQueen {
      */
     #isqpok = function (p) {
         for (let e of this.#qp)
-            if (e[0] == p[0] || e[1] == p[1] || Math.abs(e[0] - p[0]) == Math.abs(e[1] - p[1]))
+            if (e[0] === p[0] || e[1] === p[1] || Math.abs(e[0] - p[0]) === Math.abs(e[1] - p[1]))
                 return false;
         return true;
     }
