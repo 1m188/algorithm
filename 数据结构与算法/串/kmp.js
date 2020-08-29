@@ -29,7 +29,7 @@ function kmp(str, s) {
     let next = get_next(s);
     let stri = 0, si = 0;
     while (stri < str.length && si < s.length)
-        if (str[stri] == s[si] || (si = next[si]) == -1)
+        if (str[stri] === s[si] || (si = next[si]) === -1)
             stri++, si++;
     return si >= s.length ? stri - s.length : -1;
 }

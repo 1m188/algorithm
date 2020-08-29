@@ -65,7 +65,7 @@ function insertSort(vec) {
 function bindex(vec, left, right, target) {
     let mid = parseInt((left + right) / 2);
     while (left < right) {
-        if (vec[mid] == target)
+        if (vec[mid] === target)
             return mid + 1;
         else if (vec[mid] < target)
             left = mid + 1;
