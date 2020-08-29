@@ -13,7 +13,7 @@
 function quickpow(num, pow) {
     if (pow <= 0)
         return 1;
-    else if (pow == 1)
+    else if (pow === 1)
         return num;
     else {
         let nnum = quickpow(num, parseInt(pow / 2));
