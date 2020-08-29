@@ -5,8 +5,8 @@ kmp
 */
 
 /**
- * @param s 待匹配字符串
- * @returns next数组
+ * @param {string} s 待匹配字符串
+ * @returns {Array} next数组
  */
 function get_next(s) {
     let next = new Array(s.length);
@@ -21,9 +21,9 @@ function get_next(s) {
 }
 
 /**
- * @param str 待匹配原串
- * @param s 待匹配字符串
- * @returns 待匹配字符串在原串中的开始索引，不存在则返回-1
+ * @param {string} str 待匹配原串
+ * @param {string} s 待匹配字符串
+ * @returns {number} 待匹配字符串在原串中的开始索引，不存在则返回-1
  */
 function kmp(str, s) {
     let next = get_next(s);

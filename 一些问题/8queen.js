@@ -14,8 +14,8 @@ class NQueen {
 
     /**
      * 判断当前皇后坐标是否可行
-     * @param p 当前皇后坐标
-     * @returns bool值，是/否
+     * @param {Array} p 当前皇后坐标
+     * @returns {boolean} bool值，是/否
      */
     #isqpok = function (p) {
         for (let e of this.#qp)
@@ -26,8 +26,8 @@ class NQueen {
 
     /**
      * 内部递归计算
-     * @param n 皇后数量
-     * @param r 当前行数
+     * @param {number} n 皇后数量
+     * @param {number} r 当前行数
      */
     #nq = function (n, r = 0) {
         if (r >= n) {
@@ -47,8 +47,8 @@ class NQueen {
 
     /**
      * n皇后计算
-     * @param qn 皇后数量
-     * @returns 方案数
+     * @param {number} qn 皇后数量
+     * @returns {number} 方案数
      */
     nQueen(qn) {
         if (qn <= 0 || typeof (qn) != "number")

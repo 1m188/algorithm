@@ -6,10 +6,10 @@
 
 /**
  * 生成一个随机整数组
- * @param len 数组长度
- * @param left 随机整数的下界范围
- * @param right 随机整数的上界范围
- * @returns 一个生成的随机整数组
+ * @param {number} len 数组长度
+ * @param {number} left 随机整数的下界范围
+ * @param {number} right 随机整数的上界范围
+ * @returns {Array} 一个生成的随机整数组
  */
 function genRandVec(len, left, right) {
     let vec = new Array();
@@ -22,8 +22,8 @@ function genRandVec(len, left, right) {
 
 /**
  * 输出一个数组
- * @param vec 待输出数组
- * @param prefix 输出前缀
+ * @param {Array} vec 待输出数组
+ * @param {string} prefix 输出前缀
  */
 function printVec(vec, prefix) {
     process.stdout.write(prefix + ":");
@@ -39,7 +39,7 @@ function printVec(vec, prefix) {
 
 /**
  * 直接插入排序
- * @param vec 待排序数组
+ * @param {Array} vec 待排序数组
  */
 // 时间复杂度最好O(n)，最坏O(n^2)，平均O(n^2)
 // 空间复杂度O(1)
@@ -56,11 +56,11 @@ function insertSort(vec) {
 
 /**
  * 从数组的顺序部分[left,right]寻找下一个元素要被插入的位置
- * @param vec 待寻找数组
- * @param left 寻找范围左闭边界索引
- * @param right 寻找范围右闭边界索引
- * @param target 待插入的元素
- * @returns 待插入索引
+ * @param {Array} vec 待寻找数组
+ * @param {number} left 寻找范围左闭边界索引
+ * @param {number} right 寻找范围右闭边界索引
+ * @param {any} target 待插入的元素
+ * @returns {number} 待插入索引
  */
 function bindex(vec, left, right, target) {
     let mid = parseInt((left + right) / 2);
@@ -78,7 +78,7 @@ function bindex(vec, left, right, target) {
 
 /**
  * 折半插入排序
- * @param vec 待排序数组
+ * @param {Array} vec 待排序数组
  */
 // 时间复杂度最好O(nlog2n)，最坏O(n^2)，平均O(n^2)
 // 空间复杂度O(1)
@@ -96,9 +96,9 @@ function binsertSort(vec) {
 
 /**
  * 希尔排序
- * @param vec 待排序数组
- * @param k 初始增量
- * @param kfun 增量选取函数
+ * @param {Array} vec 待排序数组
+ * @param {number} k 初始增量
+ * @param {Function} kfun 增量选取函数
  */
 // 时间复杂度和增量选取有关，平均O(nlog2n)
 // 空间复杂度O(1)
@@ -128,7 +128,7 @@ function shellSort(vec, k, kfun) {
 
 /**
  * 冒泡排序
- * @param vec 待排序数组
+ * @param {Array} vec 待排序数组
  */
 // 时间复杂度最好O(n)，最坏O(n^2)，平均O(n^2)
 // 空间复杂度O(1)
@@ -148,9 +148,9 @@ function bubbleSort(vec) {
 
 /**
  * 快速排序
- * @param vec 待排序数组
- * @param left 待排序部分的左闭区间边界索引
- * @param right 待排序部分的右闭区间边界索引
+ * @param {Array} vec 待排序数组
+ * @param {number} left 待排序部分的左闭区间边界索引
+ * @param {number} right 待排序部分的右闭区间边界索引
  */
 // 时间复杂度最好O(nlog2n)，最坏O(n^2)，数据越无序越好，越有序越差，在所有O(nlog2n)的算法中基本操作次数多项式最高次项最小
 // 空间复杂度O(log2n)
@@ -179,7 +179,7 @@ function quickSort(vec, left, right) {
 
 /**
  * 直接选择排序
- * @param vec 待排序数组
+ * @param {Array} vec 待排序数组
  */
 // 时间复杂度O(n^2)
 // 空间复杂度O(1)
@@ -196,9 +196,9 @@ function selectSort(vec) {
 
 /**
  * 调整堆数组
- * @param vec 待排序数组
- * @param left 数组中待调整部分闭区间左边界索引
- * @param right 数组中待调整部分闭区间右边界索引
+ * @param {Array} vec 待排序数组
+ * @param {number} left 数组中待调整部分闭区间左边界索引
+ * @param {number} right 数组中待调整部分闭区间右边界索引
  */
 function heapAdjust(vec, left, right) {
     let tmp = vec[left];
@@ -218,7 +218,7 @@ function heapAdjust(vec, left, right) {
 
 /**
  * 堆排序
- * @param vec 待排序数组
+ * @param {Array} vec 待排序数组
  */
 // 时间复杂度O(nlog2n)
 // 空间复杂度O(1)，在相同时间的算法里是最好的
@@ -236,10 +236,10 @@ function heapSort(vec) {
 
 /**
  * 将数组中两个有序部分归并起来
- * @param vec 待排序数组
- * @param left 左待归并部分左边界索引
- * @param mid 左右待归并部分分界索引，左部分的右边界索引，右部分的左边界索引-1
- * @param right 右待归并部分右边界索引
+ * @param {Array} vec 待排序数组
+ * @param {number} left 左待归并部分左边界索引
+ * @param {number} mid 左右待归并部分分界索引，左部分的右边界索引，右部分的左边界索引-1
+ * @param {number} right 右待归并部分右边界索引
  */
 function merge(vec, left, mid, right) {
     let lvec = vec.slice(left, mid + 1);
@@ -258,9 +258,9 @@ function merge(vec, left, mid, right) {
 
 /**
  * 归并排序
- * @param vec 待排序数组
- * @param left 数组中待归并部分左闭区间边界索引
- * @param right 数组中待归并部分右闭区间边界索引
+ * @param {Array} vec 待排序数组
+ * @param {number} left 数组中待归并部分左闭区间边界索引
+ * @param {number} right 数组中待归并部分右闭区间边界索引
  */
 // 时间复杂度O(nlog2n)
 // 空间复杂度O(n)
@@ -276,8 +276,8 @@ function mergeSort(vec, left, right) {
 
 /**
  * 基数排序每趟分桶排序
- * @param vec 待排序数组
- * @param k 从低位开始按照第几位数进行排序
+ * @param {Array} vec 待排序数组
+ * @param {number} k 从低位开始按照第几位数进行排序
  */
 function radix(vec, k) {
     let qvec = new Array();
@@ -296,8 +296,8 @@ function radix(vec, k) {
 
 /**
  * 基数排序
- * @param vec 待排序数组
- * @param k 关键字位数
+ * @param {Array} vec 待排序数组
+ * @param {number} k 关键字位数
  */
 // 时间复杂度为O(d*(rd+n))，其中d为关键字位数（排序几趟），rd为关键字基个数（0-9），n为元素个数
 // 空间复杂度为O(rd)，rd个队列
@@ -309,7 +309,7 @@ function radixSort(vec, k) {
 
 /**
  * 双向冒泡排序
- * @param vec 待排序数组
+ * @param {Array} vec 待排序数组
  */
 // 时间复杂度最好O(n)，最坏O(n^2)
 // 空间复杂度O(1)
@@ -337,8 +337,8 @@ function dbubbleSort(vec) {
 
 /**
  * 计数排序
- * @param vec 待排序数组
- * @param rvec 结果放置数组
+ * @param {Array} vec 待排序数组
+ * @param {Array} rvec 结果放置数组
  */
 // 时间复杂度O(n^2)
 // 空间复杂度O(n)

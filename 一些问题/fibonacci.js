@@ -6,8 +6,8 @@
 
 /**
  * 递归
- * @param n 第几个
- * @returns 指定第几个的斐波那契数
+ * @param {number} n 第几个
+ * @returns {number} 指定第几个的斐波那契数
  */
 function Fib_recur(n) {
     return n <= 1 ? 1 : Fib_recur(n - 1) + Fib_recur(n - 2);
@@ -15,9 +15,9 @@ function Fib_recur(n) {
 
 /**
  * 尾递归
- * @param a 当前项
- * @param b 前一项
- * @returns 指定第几个的斐波那契数
+ * @param {number} a 当前项
+ * @param {number} b 前一项
+ * @returns {number} 指定第几个的斐波那契数
  */
 function Fib_tailRecur(n, a = 1, b = 1) {
     return n <= 1 ? a : Fib_tailRecur(n - 1, a + b, a);
@@ -25,8 +25,8 @@ function Fib_tailRecur(n, a = 1, b = 1) {
 
 /** 
  * 循环
- * @param n 第几个
- * @returns 指定第几个的斐波那契数
+ * @param {number} n 第几个
+ * @returns {number} 指定第几个的斐波那契数
  */
 function Fib_c(n) {
     if (n <= 1) return 1;

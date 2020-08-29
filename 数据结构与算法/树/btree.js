@@ -15,7 +15,7 @@ class BNode {
 
 /**
  * 先序遍历
- * @param root 二叉树根节点
+ * @param {BNode} root 二叉树根节点
  */
 function preorder(root) {
     if (root) {
@@ -27,7 +27,7 @@ function preorder(root) {
 
 /**
  * 中序遍历
- * @param root 二叉树根节点
+ * @param {BNode} root 二叉树根节点
  */
 function inorder(root) {
     if (root) {
@@ -39,7 +39,7 @@ function inorder(root) {
 
 /**
  * 后序遍历
- * @param root 二叉树根节点
+ * @param {BNode} root 二叉树根节点
  */
 function postorder(root) {
     if (root) {
@@ -51,11 +51,10 @@ function postorder(root) {
 
 /**
  * 层序遍历
- * @param root 二叉树根节点
+ * @param {BNode} root 二叉树根节点
  */
 function levelorder(root) {
-    if (!root)
-        return;
+    if (!root) return;
 
     let que = new Array();
     que.push(root);

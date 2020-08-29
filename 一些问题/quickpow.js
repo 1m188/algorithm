@@ -6,9 +6,9 @@
 
 /**
  * 快速幂计算
- * @param num 底数
- * @param pow 指数
- * @returns 幂计算结果
+ * @param {number} num 底数
+ * @param {number} pow 指数
+ * @returns {number} 幂计算结果
  */
 function quickpow(num, pow) {
     if (pow <= 0)
