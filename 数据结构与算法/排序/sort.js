@@ -9,10 +9,10 @@
  * @param {number} len 数组长度
  * @param {number} left 随机整数的下界范围
  * @param {number} right 随机整数的上界范围
- * @returns {Array} 一个生成的随机整数组
+ * @returns {number[]} 一个生成的随机整数组
  */
 function genRandVec(len, left, right) {
-    let vec = new Array();
+    let vec = [];
     while (len > 0) {
         vec.push(parseInt(Math.random() * (right - left + 1) + left));
         len--;
@@ -27,9 +27,8 @@ function genRandVec(len, left, right) {
  */
 function printVec(vec, prefix) {
     process.stdout.write(prefix + ":");
-    vec.forEach(element => {
-        process.stdout.write(" " + element);
-    });
+    for (const e of vec)
+        process.stdout.write(' ' + e);
     console.log();
 }
 

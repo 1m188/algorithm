@@ -6,7 +6,7 @@ kmp
 
 /**
  * @param {string} s 待匹配字符串
- * @returns {Array} next数组
+ * @returns {number[]} next数组
  */
 function get_next(s) {
     let next = new Array(s.length);
