@@ -7,10 +7,11 @@
 from random import randint
 from copy import deepcopy
 from queue import Queue
+from typing import List
 
 
 # 生成一个随机整数组
-def genrandvec(length: int, left: int, right: int) -> list:
+def genrandvec(length: int, left: int, right: int) -> List[int]:
     vec = []
     while length > 0:
         vec.append(randint(left, right))
