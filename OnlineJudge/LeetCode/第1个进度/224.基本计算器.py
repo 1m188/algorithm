@@ -65,11 +65,11 @@ class Solution:
             if c.isdigit():
                 exp += c
             else:
-                if len(exp):
+                if exp:
                     sv.append(int(exp))
                     exp = ""
                 sv.append(c)
-        if len(exp):
+        if exp:
             sv.append(int(exp))
 
         return sv
@@ -89,7 +89,7 @@ class Solution:
                 st.append(e)
             else:
                 st.append(e)
-        while len(st):
+        while st:
             exp.append(st.pop())
 
         return self.clc(exp)

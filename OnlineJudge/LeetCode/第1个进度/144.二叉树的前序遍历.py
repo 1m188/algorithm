@@ -67,7 +67,7 @@ class Solution:
         '''
 
         st = []
-        while root or len(st):
+        while root or st:
             if root:
                 res.append(root.val)
                 st.append(root)

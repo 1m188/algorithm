@@ -65,7 +65,7 @@ class Solution:
 
         r = None  # 标志前一个访问节点，判断从左子树还是右子树返回
         st = []
-        while root or len(st):
+        while root or st:
             if root:
                 st.append(root)
                 root = root.left
