@@ -68,6 +68,64 @@ function levelorder(root) {
     }
 }
 
+/**
+ * 非递归先序遍历
+ * @param {BNode} root 二叉树根节点
+ */
+function preorder_c(root) {
+    let st = [];
+    while (root || st.length) {
+        if (root) {
+            process.stdout.write(root.val + ' ');
+            st.push(root);
+            root = root.left;
+        } else {
+            root = st.pop();
+            root = root.right;
+        }
+    }
+}
+
+/**
+ * 非递归中序遍历
+ * @param {BNode} root 二叉树根节点
+ */
+function inorder_c(root) {
+    let st = [];
+    while (root || st.length) {
+        if (root) {
+            st.push(root);
+            root = root.left;
+        } else {
+            root = st.pop();
+            process.stdout.write(root.val + ' ');
+            root = root.right;
+        }
+    }
+}
+
+/**
+ * 非递归后序遍历
+ * @param {BNode} root 二叉树根节点
+ */
+function postorder_c(root) {
+    let st = [], r = null;
+    while (root || st.length) {
+        if (root) {
+            st.push(root);
+            root = root.left;
+        } else {
+            root = st[st.length - 1];
+            if (root.right && r != root.right) root = root.right;
+            else {
+                st.pop();
+                process.stdout.write(root.val + ' ');
+                [r, root] = [root, null];
+            }
+        }
+    }
+}
+
 function main() {
 
     let root = new BNode(1);
@@ -96,6 +154,17 @@ function main() {
     console.log();
 
     levelorder(root);
+    console.log();
+
+    console.log();
+
+    preorder_c(root);
+    console.log();
+
+    inorder_c(root);
+    console.log();
+
+    postorder_c(root);
     console.log();
 }
 
