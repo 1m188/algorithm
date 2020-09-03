@@ -56,17 +56,10 @@ class Solution:
             return []
 
         res = []
-        st = [root]
-        while st:
-            res.append(max(st, key=lambda x: x.val).val)
-            nst = []
-            while st:
-                p = st.pop(0)
-                if p.left:
-                    nst.append(p.left)
-                if p.right:
-                    nst.append(p.right)
-            st = nst
+        que = [root]
+        while que:
+            res.append(max(que, key=lambda x: x.val).val)
+            que = [i for n in que for i in (n.left, n.right) if i]
         return res
 
 

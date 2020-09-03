@@ -66,10 +66,10 @@ class Solution:
         if not root:
             return []
         res = []
-        st = [root]
-        while st:
-            res.append([i.val for i in st])
-            st = [j for i in st for j in i.children]
+        que = [root]
+        while que:
+            res.append([i.val for i in que])
+            que = [j for i in que for j in i.children]
         return res
 
 

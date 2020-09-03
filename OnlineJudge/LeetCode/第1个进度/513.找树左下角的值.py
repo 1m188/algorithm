@@ -72,19 +72,11 @@ class TreeNode:
 
 class Solution:
     def findBottomLeftValue(self, root: TreeNode) -> int:
-        res = root.val
-        st = [root]
-        while st:
-            nst = []
-            while st:
-                p = st.pop(0)
-                if p.left:
-                    nst.append(p.left)
-                if p.right:
-                    nst.append(p.right)
-            st = nst
-            if st:
-                res = st[0].val
+        res = None
+        que = [root]
+        while que:
+            res = que[0].val
+            que = [i for n in que for i in (n.left, n.right) if i]
         return res
 
 
