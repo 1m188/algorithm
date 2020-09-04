@@ -35,7 +35,10 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+    def travel(self, nums: List[int]) -> List[int]:
+        '''
+        遍历查询
+        '''
         res = []
         for i in range(len(nums)):
             r = None
@@ -50,6 +53,23 @@ class Solution:
                         break
             res.append(r if r is not None else -1)
         return res
+
+    def sst(self, nums: List[int]) -> List[int]:
+        '''
+        单调栈
+        '''
+        res = [-1] * len(nums)
+        st = []
+        for _ in range(2):
+            for i in range(len(nums)):
+                while st and nums[st[-1]] < nums[i]:
+                    res[st.pop()] = nums[i]
+                st.append(i)
+        return res
+
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        # return self.travel(nums)
+        return self.sst(nums)
 
 
 # @lc code=end
