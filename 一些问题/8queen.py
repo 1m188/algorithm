@@ -12,34 +12,34 @@ class NQueen:
     N皇后
     '''
     def __init__(self):
-        self.qpos = []
-        self.num = 0
+        self.__qpos = []
+        self.__num = 0
 
-    def qpjud(self, qp: Tuple[int]) -> bool:
-        for p in self.qpos:
+    def __qpjud(self, qp: Tuple[int]) -> bool:
+        for p in self.__qpos:
             if p[0] == qp[0] or p[1] == qp[1] \
                or abs(p[0] - qp[0]) == abs(p[1] - qp[1]):
                 return False
         return True
 
-    def calc(self, n: int, r: int = 0):
+    def __calc(self, n: int, r: int = 0):
         if r >= n:
-            self.num += 1
+            self.__num += 1
             return
         for i in range(n):
             p = (i, r)
-            if self.qpjud(p):
-                self.qpos.append(p)
-                self.calc(n, r + 1)
-                self.qpos.pop()
+            if self.__qpjud(p):
+                self.__qpos.append(p)
+                self.__calc(n, r + 1)
+                self.__qpos.pop()
 
     def nqueen(self, n: int) -> int:
         if n <= 0:
             return 0
-        self.qpos.clear()
-        self.num = 0
-        self.calc(n)
-        return self.num
+        self.__qpos.clear()
+        self.__num = 0
+        self.__calc(n)
+        return self.__num
 
 
 if __name__ == "__main__":
