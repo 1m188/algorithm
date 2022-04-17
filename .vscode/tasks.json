@@ -78,9 +78,9 @@
                 "${fileBasename}",
                 "-o",
                 "${fileBasenameNoExtension}",
-                "&&",
+                ";",
                 "./${fileBasenameNoExtension}",
-                "&&",
+                ";",
                 "rm",
                 "${fileBasenameNoExtension}"
             ],
