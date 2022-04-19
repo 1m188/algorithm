@@ -12,11 +12,29 @@
 // 需要提交的是已经约分过的分数，中间任何位置不能含有空格。
 // 请不要填写任何多余的文字或符号。
 
+#include "cmath"
 #include "iostream"
+
+// 辗转相除法
+long long gcd(long long a, long long b)
+{
+    if (a == 0 || b == 0)
+        return a == 0 ? b : a;
+    else if (a == b)
+        return a;
+    else if (a > b)
+        return gcd(b, a % b);
+    else
+        return gcd(a, b % a);
+}
 
 int main()
 {
-    std::cout << "Hello world!\n";
+    long long fenzi = pow(2, 20) - 1, fenmu = pow(2, 19);
+
+    long long g = gcd(fenzi, fenmu);
+
+    std::cout << fenzi / g << '/' << fenmu / g;
 
     return 0;
 }
