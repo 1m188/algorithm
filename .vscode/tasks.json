@@ -18,17 +18,31 @@
             "label": "c-gnu",
             "type": "shell",
             "command": "gcc",
-            "args": [
-                "${fileBasename}",
-                "-o",
-                "${fileBasenameNoExtension}",
-                "-lm",
-                "&&",
-                "./${fileBasenameNoExtension}",
-                "&&",
-                "rm",
-                "${fileBasenameNoExtension}"
-            ],
+            "windows": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    ";",
+                    "./${fileBasenameNoExtension}.exe",
+                    ";",
+                    "rm",
+                    "${fileBasenameNoExtension}.exe"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    "-lm",
+                    "&&",
+                    "./${fileBasenameNoExtension}",
+                    "&&",
+                    "rm",
+                    "${fileBasenameNoExtension}"
+                ]
+            },
             "options": {
                 "cwd": "${fileDirname}"
             }
@@ -37,16 +51,30 @@
             "label": "cpp-gnu",
             "type": "shell",
             "command": "g++",
-            "args": [
-                "${fileBasename}",
-                "-o",
-                "${fileBasenameNoExtension}",
-                "&&",
-                "./${fileBasenameNoExtension}",
-                "&&",
-                "rm",
-                "${fileBasenameNoExtension}"
-            ],
+            "windows": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    ";",
+                    "./${fileBasenameNoExtension}.exe",
+                    "; -and",
+                    "rm",
+                    "${fileBasenameNoExtension}.exe"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    "&&",
+                    "./${fileBasenameNoExtension}",
+                    "&&",
+                    "rm",
+                    "${fileBasenameNoExtension}"
+                ]
+            },
             "options": {
                 "cwd": "${fileDirname}"
             }
@@ -55,17 +83,31 @@
             "label": "c-clang",
             "type": "shell",
             "command": "clang",
-            "args": [
-                "${fileBasename}",
-                "-o",
-                "${fileBasenameNoExtension}",
-                "-lm",
-                "&&",
-                "./${fileBasenameNoExtension}",
-                "&&",
-                "rm",
-                "${fileBasenameNoExtension}"
-            ],
+            "windows": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    ";",
+                    "./${fileBasenameNoExtension}.exe",
+                    ";",
+                    "rm",
+                    "${fileBasenameNoExtension}.exe"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    "-lm",
+                    "&&",
+                    "./${fileBasenameNoExtension}",
+                    "&&",
+                    "rm",
+                    "${fileBasenameNoExtension}"
+                ]
+            },
             "options": {
                 "cwd": "${fileDirname}"
             }
@@ -74,16 +116,30 @@
             "label": "cpp-clang",
             "type": "shell",
             "command": "clang++",
-            "args": [
-                "${fileBasename}",
-                "-o",
-                "${fileBasenameNoExtension}",
-                ";",
-                "./${fileBasenameNoExtension}",
-                ";",
-                "rm",
-                "${fileBasenameNoExtension}"
-            ],
+            "windows": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    ";",
+                    "./${fileBasenameNoExtension}.exe",
+                    ";",
+                    "rm",
+                    "${fileBasenameNoExtension}.exe"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}",
+                    "&&",
+                    "./${fileBasenameNoExtension}",
+                    "&&",
+                    "rm",
+                    "${fileBasenameNoExtension}"
+                ]
+            },
             "options": {
                 "cwd": "${fileDirname}"
             }
