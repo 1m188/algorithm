@@ -156,7 +156,7 @@
             }
         },
         {
-            "label": "js",
+            "label": "node",
             "type": "shell",
             "command": "node",
             "args": [
