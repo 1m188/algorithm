@@ -34,13 +34,13 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}",
+                    "${fileBasenameNoExtension}.out",
                     "-lm",
                     "&&",
-                    "./${fileBasenameNoExtension}",
+                    "./${fileBasenameNoExtension}.out",
                     "&&",
                     "rm",
-                    "${fileBasenameNoExtension}"
+                    "${fileBasenameNoExtension}.out"
                 ]
             },
             "options": {
@@ -67,12 +67,12 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}",
+                    "${fileBasenameNoExtension}.out",
                     "&&",
-                    "./${fileBasenameNoExtension}",
+                    "./${fileBasenameNoExtension}.out",
                     "&&",
                     "rm",
-                    "${fileBasenameNoExtension}"
+                    "${fileBasenameNoExtension}.out"
                 ]
             },
             "options": {
@@ -99,13 +99,13 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}",
+                    "${fileBasenameNoExtension}.out",
                     "-lm",
                     "&&",
-                    "./${fileBasenameNoExtension}",
+                    "./${fileBasenameNoExtension}.out",
                     "&&",
                     "rm",
-                    "${fileBasenameNoExtension}"
+                    "${fileBasenameNoExtension}.out"
                 ]
             },
             "options": {
@@ -132,12 +132,12 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}",
+                    "${fileBasenameNoExtension}.out",
                     "&&",
-                    "./${fileBasenameNoExtension}",
+                    "./${fileBasenameNoExtension}.out",
                     "&&",
                     "rm",
-                    "${fileBasenameNoExtension}"
+                    "${fileBasenameNoExtension}.out"
                 ]
             },
             "options": {
