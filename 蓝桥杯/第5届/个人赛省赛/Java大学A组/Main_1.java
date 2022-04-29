@@ -32,7 +32,7 @@
 import java.lang.System;
 import java.lang.Math;
 
-public class Zixulie {
+public class Main_1 {
     public static int f(String x, String y) {
         if (x.length() == 0)
             return 0;
