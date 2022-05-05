@@ -1,6 +1,6 @@
 /*
 Description
-You are given a positive integer n, please count how many positive integers k satisfy kk≤n.
+You are given a positive integer n, please count how many positive integers k satisfy k^k≤n.
 
 Input
 There are no more than 50 test cases.
