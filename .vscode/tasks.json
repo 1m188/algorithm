@@ -15,7 +15,7 @@
             }
         },
         {
-            "label": "c-gnu",
+            "label": "gcc",
             "type": "shell",
             "command": "gcc",
             "windows": {
@@ -48,7 +48,7 @@
             }
         },
         {
-            "label": "cpp-gnu",
+            "label": "g++",
             "type": "shell",
             "command": "g++",
             "windows": {
@@ -80,7 +80,7 @@
             }
         },
         {
-            "label": "c-clang",
+            "label": "clang",
             "type": "shell",
             "command": "clang",
             "windows": {
@@ -113,7 +113,7 @@
             }
         },
         {
-            "label": "cpp-clang",
+            "label": "clang++",
             "type": "shell",
             "command": "clang++",
             "windows": {
@@ -145,7 +145,7 @@
             }
         },
         {
-            "label": "py",
+            "label": "python",
             "type": "shell",
             "command": "python",
             "args": [
