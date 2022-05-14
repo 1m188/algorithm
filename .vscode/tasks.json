@@ -165,6 +165,26 @@
             "options": {
                 "cwd": "${fileDirname}"
             }
+        },
+        {
+            "label": "rustc",
+            "type": "shell",
+            "command": "rustc",
+            "linux": {
+                "args": [
+                    "${fileBasename}",
+                    "-o",
+                    "${fileBasenameNoExtension}.out",
+                    "&&",
+                    "./${fileBasenameNoExtension}.out",
+                    "&&",
+                    "rm",
+                    "${fileBasenameNoExtension}.out"
+                ],
+            },
+            "options": {
+                "cwd": "${fileDirname}"
+            }
         }
     ]
 }
