@@ -33,10 +33,47 @@
 64 MB
 */
 
+/* 虽然未来得及验证，但还是写了一下，说一下思路：
+
+对于目标集合，由每个数乘以5 2 1 组成，求能被1整除的数、
+能被2整除的数和能被5整除的数的交集
+
+因题目集关闭未验证 */
+
+#include <algorithm>
 #include <cstdio>
+#include <vector>
 using namespace std;
 
 int main() {
+
+    int n = 0;
+    scanf("%d", &n);
+
+    vector<int> vec(n);
+    for (int i = 0; i < n; i++)
+        scanf("%d", &vec[i]);
+    sort(vec.begin(), vec.end());
+
+    vector<int> set2;
+    for (const int &i : vec)
+        if (i % 2 == 0)
+            set2.push_back(i / 2);
+
+    vector<int> set3;
+    for (const int &i : vec)
+        if (i % 5 == 0)
+            set3.push_back(i / 5);
+
+    vec.resize(set2.size() + set3.size());
+    auto it = set_intersection(set2.begin(), set2.end(), set3.begin(), set3.end(), vec.begin());
+    vec.erase(it, vec.end());
+    it = unique(vec.begin(), vec.end());
+    vec.erase(it, vec.end());
+
+    printf("%d", vec.back());
+    for (int i = vec.size() - 2; i >= 0; i--)
+        printf(" %d", vec[i]);
 
     return 0;
 }
