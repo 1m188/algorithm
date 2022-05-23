@@ -1,3 +1,12 @@
+/**
+ * @date 2022-05-23
+
+    这个文件大概是当初刚刚开始学的时候写的，现在看来还是有诸多问题，
+    可能是因为直接抄的书上的伪码，所以有很多警告报错，做了一点修正
+    和注释补充，文档内容倒是差不多，但代码实现有诸多不足，勉强参考
+    参考即可。以后有机会重新实现一遍这些算法和数据结构。
+ */
+
 /*
 
 图——天勤2021数据结构
@@ -152,7 +161,7 @@ void bfs(AGraph *g)
 }
 
 // 设计一个算法，求不带权无向连通图G中距离顶点v最远的一个顶点（所谓最远就是指到达v的路径长度最长）
-void BFS2(AGraph *g, int v)
+int BFS2(AGraph *g, int v)
 {
     // 用广搜来找到最外层的节点，即最远处的节点，最后遍历的节点必为最远处节点
 
@@ -285,6 +294,8 @@ void Prime(MGraph *g, int v0, int *sum)
         vest[n] = true; // 更新新的节点，此时距离其他节点最小权值要么为原来的权值，要么为新节点的权值
         *sum += min;
 
+        // j怎么能和g-n作比较...?g是一个指针，n是一个数
+        // 这里到底是什么意思...?大概是伪码...?
         for (int j = 0; j < g - n; j++) // 以刚并入的节点为媒介更新侯选边及其相应权值
             if (!vest[j] && lowcost[j] > g->edges[n][j])
                 lowcost[j] = g->edges[n][j];
@@ -379,7 +390,8 @@ void Dijkstra(MGraph *g, int v, int dist[], int path[])
     {
         dist[i] = g->edges[v][i];
         set[i] = false;
-        path[i] = g->edges[v][i] < INF ? v : -1;
+        // path[i] = g->edges[v][i] < INF ? v : -1; // 有问题
+        path[i] = g->edges[v][i] ? v : -1;
     }
     set[v] = true;
     path[v] = -1; // 上述v到v自己的距离为0，但显然v到v最短路径不存在两个节点，故赋为-1
@@ -477,7 +489,7 @@ bool TopSort(AGraph *g)
             stack[++top] = i;
 
     // 当栈非空的时候，不断出栈并将出栈顶点计数，并将其所有出边删除（即将其所有指向顶点的入度-1）
-    while (top = -1)
+    while (top == -1)
     {
         int v = stack[top--]; // 顶点出栈
         printf("%d ", v);     // 输出当前顶点
