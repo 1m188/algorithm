@@ -69,20 +69,23 @@ CAB
 
 /* 不知道为什么，用scanf总是出错，用cin输入就没问题 */
 
+/* 原来如此，在洛谷的oj系统里，回车是两个字符，或许是"\r\n"？不太清楚，
+这种换行符似乎都在Windows里，而一般oj里面应该用的是Linux啊？不太明白
+这其中的联系，但只要在scanf读入数字后面加入两个getchar就没问题了，
+或者直接后面读入字符的时候%c前面加空格，忽略掉之前所有的空白字符 */
+
 #include <algorithm>
-// #include <cstdio>
-#include <iostream>
+#include <cstdio>
 using namespace std;
 
 int main() {
 
     int vec[3];
-    // scanf("%d %d %d", &vec[0], &vec[1], &vec[2]);
+    scanf("%d %d %d", &vec[0], &vec[1], &vec[2]);
+    // getchar(); // 如果后面scanf里面%c前面不加空格的话，需要两个getchar，吃掉换行符，避免读入换行
     // getchar();
     char A, B, C;
-    // scanf("%c%c%c", &A, &B, &C);
-
-    cin >> vec[0] >> vec[1] >> vec[2] >> A >> B >> C;
+    scanf(" %c%c%c", &A, &B, &C); // 注意%c前面的空格，忽略前面所有的空白字符
 
     sort(vec, vec + 3);
 
