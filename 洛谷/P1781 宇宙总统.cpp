@@ -53,6 +53,9 @@ $1 \leq n \leq 20$
 
 /* 感觉在洛谷的oj系统里getchar总有点问题 */
 
+/* 明白了，原来洛谷里的回车有两个字符，如果要吃掉回车，必须使用getchar连续两次，
+而不是普通的一次，或者使用scanf自带的某些去除空白字符的功能 */
+
 #include <cstdio>
 #include <string>
 using namespace std;
