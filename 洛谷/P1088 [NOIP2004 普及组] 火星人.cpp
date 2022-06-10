@@ -86,29 +86,60 @@ void next_p() {
         next_permutation(vec.begin(), vec.end());
 }
 
-// int jc(int x) {
-//     if (x <= 0) return 1;
-//     return x * jc(x - 1);
-// }
+/* 错的，康托展开 re */
 
-/* 错误 */
-// int cantor() {
-//     vector<bool> flags(n + 1);
-//     int ans = 0;
-//     int jiecheng = jc(n - 1);
-//     int bit = n;
+int jc(int x) {
+    if (x <= 0) return 1;
+    return x * jc(x - 1);
+}
 
-//     for (const int &e : vec) {
-//         flags[e] = true;
-//         int x = 0;
-//         for (int i = 1; i < e; i++)
-//             x += !flags[i];
-//         ans += x * jiecheng;
-//         jiecheng /= bit--;
-//     }
+int cantor() {
+    vector<bool> flags(n + 1);
+    int ans = 0;
+    int jiecheng = jc(n);
+    int bit = n;
 
-//     return ans;
-// }
+    for (const int &e : vec) {
+        jiecheng /= bit--;
+        flags[e] = true;
+        int x = 0;
+        for (int i = 1; i < e; i++)
+            x += !flags[i];
+        ans += x * jiecheng;
+    }
+
+    return ans;
+}
+
+void re_cantor(int x) {
+    vec.clear();
+    vector<bool> flags(n + 1);
+    int jiecheng = jc(n - 1);
+
+    for (int i = n - 1; i > 0; i--) {
+        int t = x / jiecheng;
+        x %= jiecheng;
+        jiecheng /= i;
+
+        int y = 0, idx = 1;
+        while (y < t && idx <= n)
+            y += !flags[idx++];
+
+        while (flags[idx])
+            idx++;
+        vec.push_back(idx);
+        flags[idx] = true;
+    }
+
+    for (int i = 1; i <= n; i++) {
+        if (!flags[i]) {
+            vec.push_back(i);
+            break;
+        }
+    }
+}
+
+/* ******************************************** */
 
 void print() {
     printf("%d", vec[0]);
@@ -119,7 +150,7 @@ void print() {
 int main() {
     input();
     next_p();
+    // re_cantor(cantor() + m);
     print();
-    // printf("%d", cantor());
     return 0;
 }
