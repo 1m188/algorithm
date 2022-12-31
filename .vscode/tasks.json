@@ -87,13 +87,18 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}.exe",
+                    "'${fileBasenameNoExtension}.exe'", // 单引号包住，防止有空格的情况出现
                     ";",
-                    "./${fileBasenameNoExtension}.exe",
+                    "./'${fileBasenameNoExtension}.exe'",
                     ";",
                     "rm",
-                    "${fileBasenameNoExtension}.exe"
-                ]
+                    "'${fileBasenameNoExtension}.exe'"
+                ],
+                "options": {
+                    "shell": {
+                        "executable": "PowerShell"
+                    }
+                }
             },
             "linux": {
                 "args": [
