@@ -87,7 +87,7 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}",
+                    "${fileBasenameNoExtension}.exe",
                     ";",
                     "./${fileBasenameNoExtension}.exe",
                     ";",
