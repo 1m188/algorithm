@@ -4,8 +4,10 @@ Engineering Mathematics
 教材：数值计算方法（曾金平 主编  湖南大学出版社）
 '''
 
+from typing import Optional
 
-def cs(f: function, points: list[float]) -> float | None:
+
+def cs(f: function, points: list[float]) -> Optional[float]:
     '''
     递归计算差商
     '''
