@@ -30,8 +30,26 @@ def trapezoidal_f(f: function, \
     
     用于计算定积分近似值
 
+    两点（两个端点）
+
     @param f: 待积分的函数
     @param a, b: 积分区间
     @param return: 积分近似值
     '''
     return (f(a) + f(b)) * (b - a) / 2
+
+def simpson_f(f: function, \
+    a: Union[int, float], \
+    b: Union[int,float]) -> float:
+    '''
+    Simpson公式
+    
+    用于计算定积分近似值
+
+    三点（抛物线近似）
+
+    @param f: 待积分的函数
+    @param a, b: 积分区间
+    @param return: 积分近似值
+    '''
+    return (b - a) / 6 * (f(a) + 4 * f((a + b) / 2) + f(b))
