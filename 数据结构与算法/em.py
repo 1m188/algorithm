@@ -22,9 +22,7 @@ def cs(f: function, points: list[float]) -> Optional[float]:
     return (cs(f, points[:-1]) - cs(f, points[1:])) / (points[0] - points[-1])
 
 
-def trapezoidal_f(f: function, \
-    a: Union[int, float], \
-    b: Union[int,float]) -> float:
+def trapezoidal_f(f: function, a: float, b: float) -> float:
     '''
     梯形公式
     
@@ -38,9 +36,25 @@ def trapezoidal_f(f: function, \
     '''
     return (f(a) + f(b)) * (b - a) / 2
 
-def simpson_f(f: function, \
-    a: Union[int, float], \
-    b: Union[int,float]) -> float:
+
+def compound_trapezoidal_f(f: function, points: list[float]) -> float:
+    '''
+    复合梯形求积公式
+
+    对每两个点之间的小区间用梯形公式累积求积分
+
+    @param f: 待积分的函数
+    @param points: 在积分区间上的等距取点，至少要有两个点以上，且两个端点应该是积分端点
+    @param return: 积分近似值
+    '''
+    res = 0.0
+    for i in range(1, len(points)):
+        res += (points[i] - points[i - 1]) * (f(points[i - 1]) +
+                                              f(points[i])) / 2
+    return res
+
+
+def simpson_f(f: function, a: float, b: float) -> float:
     '''
     Simpson公式
     
