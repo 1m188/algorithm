@@ -4,7 +4,7 @@ Engineering Mathematics
 教材：数值计算方法（曾金平 主编  湖南大学出版社）
 '''
 
-from typing import Optional, Union
+from typing import Optional
 
 
 def cs(f: function, points: list[float]) -> Optional[float]:
@@ -67,3 +67,18 @@ def simpson_f(f: function, a: float, b: float) -> float:
     @param return: 积分近似值
     '''
     return (b - a) / 6 * (f(a) + 4 * f((a + b) / 2) + f(b))
+
+
+def compound_simpson_f(f: function, points: list[float]) -> float:
+    '''
+    复合Simpson求积公式
+
+    @param f: 待积分的函数
+    @param points: 在积分区间上等距取点，至少要有三个点以上，且两端的点都要为积分区间端点
+    @param return: 积分近似值
+    '''
+    res = 0.0
+    for i in range(2, len(points)):
+        res += (points[i] - points[i - 2]) * (
+            f(points[i - 2]) + 4 * f(points[i - 1]) + f(points[i])) / 6
+    return res
