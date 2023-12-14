@@ -7,3 +7,6 @@ ColumnLimit: 0
 
 # 允许短的if语句保持在同一行
 AllowShortIfStatementsOnASingleLine: true
+
+# 访问说明符(public、private等)的偏移
+AccessModifierOffset: -4
