@@ -1,3 +1,8 @@
+/**
+ * @file manacher.cpp
+ * @date 2022-05-23
+ */
+
 /*
 
 Manacher 算法  （马拉车算法）
