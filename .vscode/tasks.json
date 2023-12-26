@@ -125,19 +125,25 @@
                 "args": [
                     "${fileBasename}",
                     "-o",
-                    "${fileBasenameNoExtension}",
+                    "${fileBasenameNoExtension}.exe",
                     ";",
                     "./${fileBasenameNoExtension}.exe",
                     ";",
                     "rm",
                     "${fileBasenameNoExtension}.exe"
-                ]
+                ],
+                "options": {
+                    "shell": {
+                        "executable": "PowerShell"
+                    }
+                }
             },
             "linux": {
                 "args": [
                     "${fileBasename}",
                     "-o",
                     "${fileBasenameNoExtension}.out",
+                    "-lm",
                     "&&",
                     "./${fileBasenameNoExtension}.out",
                     "&&",
