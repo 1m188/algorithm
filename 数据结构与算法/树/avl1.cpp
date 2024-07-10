@@ -16,6 +16,13 @@ struct Node {
     Node *left = nullptr, *right = nullptr;
     int val = 0;
     int h = 1; // 以该节点为根的树的高度
+
+    /** 获取平衡因子 */
+    int balance() {
+        int left = this->left ? this->left->h : 0;
+        int right = this->right ? this->right->h : 0;
+        return left - right;
+    }
 };
 
 /** 释放内存 */
@@ -98,9 +105,7 @@ Node *adjust(Node *root) {
 bool is_avl(Node *root) {
     if (!root) return true;
 
-    int left = root->left ? root->left->h : 0;
-    int right = root->right ? root->right->h : 0;
-    if (std::abs(left - right) > 1) return false;
+    if (std::abs(root->balance()) > 1) return false;
 
     if (!is_avl(root->left)) return false;
     if (!is_avl(root->right)) return false;
