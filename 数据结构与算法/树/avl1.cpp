@@ -30,6 +30,34 @@ inline int height(Node *node) {
     return node == nullptr ? 0 : node->h;
 }
 
+/** 左旋 */
+Node *rotate_L(Node *root) {
+    Node *right = root->right;
+    root->right = right->left;
+    right->left = root;
+    return right;
+}
+
+/** 右旋 */
+Node *rotate_R(Node *root) {
+    Node *left = root->left;
+    root->left = left->right;
+    left->right = root;
+    return left;
+}
+
+/** 左右旋 */
+Node *rotate_LR(Node *root) {
+    root->left = rotate_L(root->left);
+    return rotate_R(root);
+}
+
+/** 右左旋 */
+Node *rotate_RL(Node *root) {
+    root->right = rotate_R(root->right);
+    return rotate_L(root);
+}
+
 /** 释放内存 */
 void free(Node *root) {
     if (!root) return;
