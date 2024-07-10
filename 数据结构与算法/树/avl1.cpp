@@ -12,9 +12,10 @@
 #include <iomanip>
 #include <iostream>
 
+template <typename T>
 struct Node {
     Node *left = nullptr, *right = nullptr;
-    int val = 0;
+    T val;
     int h = 1; // 以该节点为根的树的高度
 
     /** 获取节点的平衡因子 */
@@ -33,8 +34,9 @@ struct Node {
 };
 
 /** 左旋 */
-Node *rotate_L(Node *root) {
-    Node *right = root->right;
+template <typename T>
+Node<T> *rotate_L(Node<T> *root) {
+    Node<T> *right = root->right;
     root->right = right->left;
     right->left = root;
 
@@ -45,8 +47,9 @@ Node *rotate_L(Node *root) {
 }
 
 /** 右旋 */
-Node *rotate_R(Node *root) {
-    Node *left = root->left;
+template <typename T>
+Node<T> *rotate_R(Node<T> *root) {
+    Node<T> *left = root->left;
     root->left = left->right;
     left->right = root;
 
@@ -57,19 +60,22 @@ Node *rotate_R(Node *root) {
 }
 
 /** 左右旋 */
-Node *rotate_LR(Node *root) {
+template <typename T>
+Node<T> *rotate_LR(Node<T> *root) {
     root->left = rotate_L(root->left);
     return rotate_R(root);
 }
 
 /** 右左旋 */
-Node *rotate_RL(Node *root) {
+template <typename T>
+Node<T> *rotate_RL(Node<T> *root) {
     root->right = rotate_R(root->right);
     return rotate_L(root);
 }
 
 /** 旋转调整 */
-Node *rotate(Node *root) {
+template <typename T>
+Node<T> *rotate(Node<T> *root) {
     if (root->balance() > 1) {
         if (root->left->balance() > 0)
             return rotate_R(root);
@@ -85,7 +91,8 @@ Node *rotate(Node *root) {
 }
 
 /** 释放内存 */
-void free(Node *root) {
+template <typename T>
+void free(Node<T> *root) {
     if (!root) return;
     if (root->left) free(root->left);
     if (root->right) free(root->right);
@@ -93,7 +100,8 @@ void free(Node *root) {
 }
 
 /** 查找 */
-Node *find(Node *root, int val) {
+template <typename T>
+Node<T> *find(Node<T> *root, int val) {
     if (!root) return nullptr;
     if (val < root->val) return find(root->left, val);
     if (val > root->val) return find(root->right, val);
@@ -101,9 +109,10 @@ Node *find(Node *root, int val) {
 }
 
 /** 插入 */
-Node *insert(Node *root, int val) {
+template <typename T>
+Node<T> *insert(Node<T> *root, int val) {
     if (!root) {
-        Node *node = new Node();
+        Node<T> *node = new Node<T>();
         node->val = val;
         return node;
     }
@@ -119,7 +128,8 @@ Node *insert(Node *root, int val) {
 }
 
 /** 删除 */
-Node *del(Node *root, int val) {
+template <typename T>
+Node<T> *del(Node<T> *root, int val) {
     if (!root) return nullptr;
 
     if (val < root->val)
@@ -131,13 +141,13 @@ Node *del(Node *root, int val) {
             delete root;
             return nullptr;
         } else if (root->left && root->right) {
-            Node *min = root->right;
+            Node<T> *min = root->right;
             while (min->left)
                 min = min->left;
             std::swap(min->val, root->val);
             root->right = del(root->right, min->val);
         } else {
-            Node *res = root->left ? root->left : root->right;
+            Node<T> *res = root->left ? root->left : root->right;
             delete root;
             return res;
         }
@@ -151,7 +161,8 @@ Node *del(Node *root, int val) {
 /******************************************************************************************************** */
 
 /** 判断是否每个节点都平衡 */
-bool is_avl(Node *root) {
+template <typename T>
+bool is_avl(Node<T> *root) {
     if (!root) return true;
 
     if (std::abs(root->balance()) > 1) return false;
@@ -163,11 +174,12 @@ bool is_avl(Node *root) {
 }
 
 /** 判断是否为二叉查找树 */
-bool is_bst(Node *root) {
+template <typename T>
+bool is_bst(Node<T> *root) {
 
-    Node *prenode = nullptr;
+    Node<T> *prenode = nullptr;
 
-    std::function<bool(Node *)> mid = [&prenode, &mid](Node *node) -> bool {
+    std::function<bool(Node<T> *)> mid = [&prenode, &mid](Node<T> *node) -> bool {
         if (!node) return true;
 
         if (!mid(node->left)) return false;
@@ -209,7 +221,7 @@ void expect_eq(const T &expect, const T &actual, const char *file, int line) {
 
 void test_insert() {
     {
-        Node *root = nullptr;
+        Node<int> *root = nullptr;
         for (int i = 6; i >= 1; i--) {
             root = insert(root, i);
 
@@ -231,7 +243,7 @@ void test_insert() {
             3
         */
 
-        Node *root = nullptr;
+        Node<int> *root = nullptr;
         for (const int &e : {8, 9, 6, 7, 4, 3}) {
             root = insert(root, e);
 
@@ -253,7 +265,7 @@ void test_insert() {
                         8
         */
 
-        Node *root = nullptr;
+        Node<int> *root = nullptr;
         for (const int &e : {4, 3, 6, 5, 7, 8}) {
             root = insert(root, e);
 
@@ -275,7 +287,7 @@ void test_insert() {
                     8
         */
 
-        Node *root = nullptr;
+        Node<int> *root = nullptr;
         for (const int &e : {9, 10, 6, 5, 7, 8}) {
             root = insert(root, e);
 
@@ -297,7 +309,7 @@ void test_insert() {
                 4
         */
 
-        Node *root = nullptr;
+        Node<int> *root = nullptr;
         for (const int &e : {3, 2, 6, 7, 5, 4}) {
             root = insert(root, e);
 
@@ -310,14 +322,14 @@ void test_insert() {
 }
 
 void test_del() {
-    Node *root = nullptr;
+    Node<int> *root = nullptr;
     for (const int &e : {3, 1, 5, 0, 4, 6, 7})
         root = insert(root, e);
 
     root = del(root, 4);
     EXPECT_EQ(true, is_bst(root));
     EXPECT_EQ(true, is_avl(root));
-    EXPECT_EQ((Node *)nullptr, find(root, 4));
+    EXPECT_EQ((Node<int> *)nullptr, find(root, 4));
 
     free(root);
     root = nullptr;
