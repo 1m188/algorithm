@@ -25,6 +25,11 @@ struct Node {
     }
 };
 
+/** 获取高度 */
+inline int height(Node *node) {
+    return node == nullptr ? 0 : node->h;
+}
+
 /** 释放内存 */
 void free(Node *root) {
     if (!root) return;
@@ -48,10 +53,13 @@ Node *insert(Node *root, int val) {
         node->val = val;
         return node;
     }
+
     if (val < root->val)
         root->left = insert(root->left, val);
     else if (val > root->val)
         root->right = insert(root->right, val);
+
+    root->h = std::max(height(root->left), height(root->right)) + 1; // 更新高度
     return root;
 }
 
@@ -80,24 +88,19 @@ Node *del(Node *root, int val) {
         }
     }
 
+    root->h = std::max(height(root->left), height(root->right)) + 1; // 更新高度
     return root;
 }
 
 /** 更新树中所有节点的高度 */
-int update_height(Node *root) {
-    if (!root) return 0;
-    int left = update_height(root->left);
-    int right = update_height(root->right);
-    int max = std::max(left, right);
-    root->h = max + 1;
-    return root->h;
-}
-
-/** 旋转调整 */
-Node *adjust(Node *root) {
-    // TODO
-    return root;
-}
+// int update_height(Node *root) {
+//     if (!root) return 0;
+//     int left = update_height(root->left);
+//     int right = update_height(root->right);
+//     int max = std::max(left, right);
+//     root->h = max + 1;
+//     return root->h;
+// }
 
 /******************************************************************************************************** */
 
@@ -163,9 +166,6 @@ void test_insert() {
         Node *root = nullptr;
         for (int i = 6; i >= 1; i--) {
             root = insert(root, i);
-            update_height(root);
-            root = adjust(root);
-            update_height(root);
 
             EXPECT_EQ(true, is_bst(root));
             EXPECT_EQ(true, is_avl(root));
@@ -188,8 +188,6 @@ void test_insert() {
         Node *root = nullptr;
         for (const int &e : {8, 9, 6, 7, 4, 3}) {
             root = insert(root, e);
-            update_height(root);
-            root = adjust(root);
 
             EXPECT_EQ(true, is_bst(root));
             EXPECT_EQ(true, is_avl(root));
@@ -212,8 +210,6 @@ void test_insert() {
         Node *root = nullptr;
         for (const int &e : {4, 3, 6, 5, 7, 8}) {
             root = insert(root, e);
-            update_height(root);
-            root = adjust(root);
 
             EXPECT_EQ(true, is_bst(root));
             EXPECT_EQ(true, is_avl(root));
@@ -236,8 +232,6 @@ void test_insert() {
         Node *root = nullptr;
         for (const int &e : {9, 10, 6, 5, 7, 8}) {
             root = insert(root, e);
-            update_height(root);
-            root = adjust(root);
 
             EXPECT_EQ(true, is_bst(root));
             EXPECT_EQ(true, is_avl(root));
@@ -260,8 +254,6 @@ void test_insert() {
         Node *root = nullptr;
         for (const int &e : {3, 2, 6, 7, 5, 4}) {
             root = insert(root, e);
-            update_height(root);
-            root = adjust(root);
 
             EXPECT_EQ(true, is_bst(root));
             EXPECT_EQ(true, is_avl(root));
@@ -273,17 +265,10 @@ void test_insert() {
 
 void test_del() {
     Node *root = nullptr;
-    for (const int &e : {3, 1, 5, 0, 4, 6, 7}) {
+    for (const int &e : {3, 1, 5, 0, 4, 6, 7})
         root = insert(root, e);
-        update_height(root);
-        root = adjust(root);
-        update_height(root);
-    }
 
     root = del(root, 4);
-    update_height(root);
-    root = adjust(root);
-    update_height(root);
     EXPECT_EQ(true, is_bst(root));
     EXPECT_EQ(true, is_avl(root));
     EXPECT_EQ((Node *)nullptr, find(root, 4));
