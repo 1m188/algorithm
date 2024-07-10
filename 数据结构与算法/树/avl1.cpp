@@ -17,24 +17,30 @@ struct Node {
     int val = 0;
     int h = 1; // 以该节点为根的树的高度
 
-    /** 获取平衡因子 */
+    /** 获取节点的平衡因子 */
     int balance() {
         int left = this->left ? this->left->h : 0;
         int right = this->right ? this->right->h : 0;
         return left - right;
     }
-};
 
-/** 获取高度 */
-inline int height(Node *node) {
-    return node == nullptr ? 0 : node->h;
-}
+    /** 更新节点高度 */
+    void update_h() {
+        int left = this->left ? this->left->h : 0;
+        int right = this->right ? this->right->h : 0;
+        this->h = std::max(left, right) + 1;
+    }
+};
 
 /** 左旋 */
 Node *rotate_L(Node *root) {
     Node *right = root->right;
     root->right = right->left;
     right->left = root;
+
+    root->update_h();
+    right->update_h();
+
     return right;
 }
 
@@ -43,6 +49,10 @@ Node *rotate_R(Node *root) {
     Node *left = root->left;
     root->left = left->right;
     left->right = root;
+
+    root->update_h();
+    left->update_h();
+
     return left;
 }
 
@@ -87,7 +97,7 @@ Node *insert(Node *root, int val) {
     else if (val > root->val)
         root->right = insert(root->right, val);
 
-    root->h = std::max(height(root->left), height(root->right)) + 1; // 更新高度
+    root->update_h(); // 更新高度
     return root;
 }
 
@@ -116,19 +126,9 @@ Node *del(Node *root, int val) {
         }
     }
 
-    root->h = std::max(height(root->left), height(root->right)) + 1; // 更新高度
+    root->update_h(); // 更新高度
     return root;
 }
-
-/** 更新树中所有节点的高度 */
-// int update_height(Node *root) {
-//     if (!root) return 0;
-//     int left = update_height(root->left);
-//     int right = update_height(root->right);
-//     int max = std::max(left, right);
-//     root->h = max + 1;
-//     return root->h;
-// }
 
 /******************************************************************************************************** */
 
