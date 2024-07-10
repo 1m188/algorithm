@@ -159,6 +159,7 @@ void test_insert() {
         root = insert(root, i);
         update_height(root);
         root = adjust(root);
+        update_height(root);
 
         EXPECT_EQ(true, is_bst(root));
         EXPECT_EQ(true, is_avl(root));
@@ -173,11 +174,13 @@ void test_del() {
         root = insert(root, i);
         update_height(root);
         root = adjust(root);
+        update_height(root);
     }
 
     root = del(root, 6);
     update_height(root);
     root = adjust(root);
+    update_height(root);
     EXPECT_EQ(true, is_bst(root));
     EXPECT_EQ(true, is_avl(root));
     EXPECT_EQ((Node *)nullptr, find(root, 6));
@@ -185,6 +188,7 @@ void test_del() {
     root = del(root, 3);
     update_height(root);
     root = adjust(root);
+    update_height(root);
     EXPECT_EQ(true, is_bst(root));
     EXPECT_EQ(true, is_avl(root));
     EXPECT_EQ((Node *)nullptr, find(root, 3));
