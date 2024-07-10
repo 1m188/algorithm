@@ -154,18 +154,124 @@ void expect_eq(const T &expect, const T &actual, const char *file, int line) {
 #define EXPECT_EQ(expect, actual) expect_eq(expect, actual, __FILE__, __LINE__)
 
 void test_insert() {
-    Node *root = nullptr;
-    for (int i = 6; i >= 1; i--) {
-        root = insert(root, i);
+    {
+        Node *root = nullptr;
+        for (int i = 6; i >= 1; i--) {
+            root = insert(root, i);
+            update_height(root);
+            root = adjust(root);
+            update_height(root);
+
+            EXPECT_EQ(true, is_bst(root));
+            EXPECT_EQ(true, is_avl(root));
+        }
+        free(root);
+        root = nullptr;
+    }
+
+    {
+        /*
+                  8
+                 / \
+                6   9
+               / \
+              4   7
+             /
+            3
+        */
+
+        Node *root = nullptr;
+        root = insert(root, 8);
+        root = insert(root, 9);
+        root = insert(root, 6);
+        root = insert(root, 7);
+        root = insert(root, 4);
+        root = insert(root, 3);
         update_height(root);
         root = adjust(root);
-        update_height(root);
-
         EXPECT_EQ(true, is_bst(root));
         EXPECT_EQ(true, is_avl(root));
+        free(root);
+        root = nullptr;
     }
-    free(root);
-    root = nullptr;
+
+    {
+        /*
+                  4
+                 / \
+                3   6
+                   / \
+                  5   7
+                       \
+                        8
+        */
+
+        Node *root = nullptr;
+        root = insert(root, 4);
+        root = insert(root, 3);
+        root = insert(root, 6);
+        root = insert(root, 5);
+        root = insert(root, 7);
+        root = insert(root, 8);
+        update_height(root);
+        root = adjust(root);
+        EXPECT_EQ(true, is_bst(root));
+        EXPECT_EQ(true, is_avl(root));
+        free(root);
+        root = nullptr;
+    }
+
+    {
+        /*
+                  9
+                 / \
+                6   10
+               / \
+              5   7
+                   \
+                    8
+        */
+
+        Node *root = nullptr;
+        root = insert(root, 9);
+        root = insert(root, 10);
+        root = insert(root, 6);
+        root = insert(root, 5);
+        root = insert(root, 7);
+        root = insert(root, 8);
+        update_height(root);
+        root = adjust(root);
+        EXPECT_EQ(true, is_bst(root));
+        EXPECT_EQ(true, is_avl(root));
+        free(root);
+        root = nullptr;
+    }
+
+    {
+        /*
+                  3
+                 / \
+                2   6
+                   / \
+                  5   7
+                 /
+                4
+        */
+
+        Node *root = nullptr;
+        root = insert(root, 3);
+        root = insert(root, 2);
+        root = insert(root, 6);
+        root = insert(root, 7);
+        root = insert(root, 5);
+        root = insert(root, 4);
+        update_height(root);
+        root = adjust(root);
+        EXPECT_EQ(true, is_bst(root));
+        EXPECT_EQ(true, is_avl(root));
+        free(root);
+        root = nullptr;
+    }
 }
 
 void test_del() {
