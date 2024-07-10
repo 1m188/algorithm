@@ -68,6 +68,22 @@ Node *rotate_RL(Node *root) {
     return rotate_L(root);
 }
 
+/** 旋转调整 */
+Node *rotate(Node *root) {
+    if (root->balance() > 1) {
+        if (root->left->balance() > 0)
+            return rotate_R(root);
+        else
+            return rotate_LR(root);
+    } else if (root->balance() < -1) {
+        if (root->right->balance() < 0)
+            return rotate_L(root);
+        else
+            return rotate_RL(root);
+    }
+    return root;
+}
+
 /** 释放内存 */
 void free(Node *root) {
     if (!root) return;
@@ -97,7 +113,8 @@ Node *insert(Node *root, int val) {
     else if (val > root->val)
         root->right = insert(root->right, val);
 
-    root->update_h(); // 更新高度
+    root = rotate(root); // 旋转调整
+    root->update_h();    // 更新高度
     return root;
 }
 
@@ -126,7 +143,8 @@ Node *del(Node *root, int val) {
         }
     }
 
-    root->update_h(); // 更新高度
+    root = rotate(root); // 旋转调整
+    root->update_h();    // 更新高度
     return root;
 }
 
