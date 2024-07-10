@@ -190,9 +190,10 @@ void test_insert() {
             root = insert(root, e);
             update_height(root);
             root = adjust(root);
+
+            EXPECT_EQ(true, is_bst(root));
+            EXPECT_EQ(true, is_avl(root));
         }
-        EXPECT_EQ(true, is_bst(root));
-        EXPECT_EQ(true, is_avl(root));
         free(root);
         root = nullptr;
     }
@@ -213,9 +214,10 @@ void test_insert() {
             root = insert(root, e);
             update_height(root);
             root = adjust(root);
+
+            EXPECT_EQ(true, is_bst(root));
+            EXPECT_EQ(true, is_avl(root));
         }
-        EXPECT_EQ(true, is_bst(root));
-        EXPECT_EQ(true, is_avl(root));
         free(root);
         root = nullptr;
     }
@@ -236,9 +238,10 @@ void test_insert() {
             root = insert(root, e);
             update_height(root);
             root = adjust(root);
+
+            EXPECT_EQ(true, is_bst(root));
+            EXPECT_EQ(true, is_avl(root));
         }
-        EXPECT_EQ(true, is_bst(root));
-        EXPECT_EQ(true, is_avl(root));
         free(root);
         root = nullptr;
     }
@@ -259,9 +262,10 @@ void test_insert() {
             root = insert(root, e);
             update_height(root);
             root = adjust(root);
+
+            EXPECT_EQ(true, is_bst(root));
+            EXPECT_EQ(true, is_avl(root));
         }
-        EXPECT_EQ(true, is_bst(root));
-        EXPECT_EQ(true, is_avl(root));
         free(root);
         root = nullptr;
     }
