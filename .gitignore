@@ -2,3 +2,5 @@
 !.vscode/tasks.json
 
 .vs/
+
+leetcode/.lcpr_data/*
