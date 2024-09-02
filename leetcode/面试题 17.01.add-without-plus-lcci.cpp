@@ -54,14 +54,19 @@ using namespace std;
 class Solution {
 public:
     int add(int a, int b) {
-        while (b) {
-            int temp = a ^ b;         // 无进位累加值
-            int carry = (a & b) << 1; // 进位值
-            // a=无进位累加值 b=进位值
-            a = temp;
-            b = carry;
-        }
-        return a;
+        if (b == 0) return a;
+        int x = a ^ b;
+        int y = (a & b) << 1;
+        return add(x, y);
+
+        // while (b) {
+        //     int temp = a ^ b;         // 无进位累加值
+        //     int carry = (a & b) << 1; // 进位值
+        //     // a=无进位累加值 b=进位值
+        //     a = temp;
+        //     b = carry;
+        // }
+        // return a;
     }
 };
 // @lc code=end
