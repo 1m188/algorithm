@@ -35,7 +35,7 @@
  *
  *
  */
-package leetcode
+package main
 
 // @lcpr-template-start
 
