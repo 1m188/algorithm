@@ -58,7 +58,7 @@
                     "${fileBasenameNoExtension}",
                     ";",
                     "./${fileBasenameNoExtension}.exe",
-                    "; -and",
+                    ";",
                     "rm",
                     "${fileBasenameNoExtension}.exe"
                 ]
