@@ -196,6 +196,18 @@
             "options": {
                 "cwd": "${fileDirname}"
             }
-        }
+        },
+        {
+            "label": "go",
+            "type": "shell",
+            "command": "go",
+            "args": [
+                "run",
+                "${file}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
     ]
 }
