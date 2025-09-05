@@ -209,5 +209,43 @@
                 "cwd": "${fileDirname}"
             }
         },
+        {
+            "label": "nowcoder_go",
+            "type": "shell",
+            "detail": "在nowcoder目录下创建go文件",
+            "windows": {
+                "command": "mkdir",
+                "args": [
+                    "${input:nowcoder_go}",
+                    "&&",
+                    "cd",
+                    "${input:nowcoder_go}",
+                    "&&",
+                    "type",
+                    "nul",
+                    ">>",
+                    "${input:nowcoder_go}.go",
+                ],
+                "options": {
+                    "shell": {
+                        "executable": "cmd",
+                        "args": [
+                            "/d",
+                            "/c"
+                        ],
+                    },
+                }
+            },
+            "options": {
+                "cwd": "nowcoder",
+            },
+        }
+    ],
+    "inputs": [
+        {
+            "id": "nowcoder_go",
+            "type": "promptString",
+            "description": "请输入文件名"
+        }
     ]
 }
