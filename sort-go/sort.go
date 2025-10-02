@@ -96,3 +96,45 @@ func QuickSort[T any](arr []T, less func(i, j int) bool) {
 
 	quickSort(0, len(arr)-1)
 }
+
+// 归并排序
+func MergeSort[T any](arr []T, less func(i, j int) bool) {
+	mergeSort := func(left, mid, right int) {
+		li := make([]T, 0, right-left+1)
+		idx1, idx2 := left, mid+1
+		for idx1 <= mid && idx2 <= right {
+			if less(idx1, idx2) {
+				li = append(li, arr[idx1])
+				idx1++
+			} else {
+				li = append(li, arr[idx2])
+				idx2++
+			}
+		}
+		for idx1 <= mid {
+			li = append(li, arr[idx1])
+			idx1++
+		}
+		for idx2 <= right {
+			li = append(li, arr[idx2])
+			idx2++
+		}
+
+		for i := 0; i < len(li); i++ {
+			arr[left+i] = li[i]
+		}
+	}
+
+	var merge func(int, int)
+	merge = func(left, right int) {
+		if left >= right {
+			return
+		}
+		mid := (left + right) / 2
+		merge(left, mid)
+		merge(mid+1, right)
+		mergeSort(left, mid, right)
+	}
+
+	merge(0, len(arr)-1)
+}

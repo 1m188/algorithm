@@ -48,3 +48,4 @@ func TestShellSort(t *testing.T)  { testSort(t, ShellSort) }
 func TestSelectSort(t *testing.T) { testSort(t, SelectSort) }
 func TestBubbleSort(t *testing.T) { testSort(t, BubbleSort) }
 func TestQuickSort(t *testing.T)  { testSort(t, QuickSort) }
+func TestMergeSort(t *testing.T)  { testSort(t, MergeSort) }
