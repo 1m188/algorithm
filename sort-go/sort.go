@@ -23,3 +23,14 @@ func InsertSort[T any](arr []T, less func(i, j int) bool) {
 		}
 	}
 }
+
+// 希尔排序
+func ShellSort[T any](arr []T, less func(i, j int) bool) {
+	for gap := len(arr) / 2; gap > 0; gap /= 2 {
+		for i := gap; i < len(arr); i++ {
+			for j := i; j >= gap && less(j, j-gap); j -= gap {
+				arr[j], arr[j-gap] = arr[j-gap], arr[j]
+			}
+		}
+	}
+}
