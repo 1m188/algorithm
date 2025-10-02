@@ -36,3 +36,16 @@ func ShellSort[T any](arr []T, less func(i, j int) bool) {
 		}
 	}
 }
+
+// 选择排序
+func SelectSort[T any](arr []T, less func(i, j int) bool) {
+	for i := range arr {
+		min := i
+		for j := i + 1; j < len(arr); j++ {
+			if less(j, min) {
+				min = j
+			}
+		}
+		arr[i], arr[min] = arr[min], arr[i]
+	}
+}
