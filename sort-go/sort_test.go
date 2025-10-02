@@ -43,10 +43,11 @@ func testSort(t *testing.T, sortFunc func([]int, func(i, j int) bool)) {
 	}
 }
 
-func TestInsertSort(t *testing.T) { testSort(t, InsertSort) }
-func TestShellSort(t *testing.T)  { testSort(t, ShellSort) }
-func TestSelectSort(t *testing.T) { testSort(t, SelectSort) }
-func TestBubbleSort(t *testing.T) { testSort(t, BubbleSort) }
-func TestQuickSort(t *testing.T)  { testSort(t, QuickSort) }
-func TestMergeSort(t *testing.T)  { testSort(t, MergeSort) }
-func TestHeapSort(t *testing.T)   { testSort(t, HeapSort) }
+func TestInsertSort(t *testing.T)   { testSort(t, InsertSort) }
+func TestShellSort(t *testing.T)    { testSort(t, ShellSort) }
+func TestSelectSort(t *testing.T)   { testSort(t, SelectSort) }
+func TestBubbleSort(t *testing.T)   { testSort(t, BubbleSort) }
+func TestQuickSort(t *testing.T)    { testSort(t, QuickSort) }
+func TestMergeSort(t *testing.T)    { testSort(t, MergeSort) }
+func TestHeapSort(t *testing.T)     { testSort(t, HeapSort) }
+func TestCountingSort(t *testing.T) { testSort(t, CountingSort) }

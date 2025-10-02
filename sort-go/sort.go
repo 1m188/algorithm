@@ -172,3 +172,47 @@ func HeapSort[T any](arr []T, less func(i, j int) bool) {
 		adjust(0, i-1)
 	}
 }
+
+// 计数排序
+func CountingSort[T int |
+	int8 |
+	int16 |
+	int32 |
+	int64 |
+	uint |
+	uint8 |
+	uint16 |
+	uint32 |
+	uint64](arr []T, less func(i, j int) bool) {
+
+	if len(arr) == 0 {
+		return
+	}
+
+	minV, maxV := arr[0], arr[0]
+	for _, v := range arr {
+		if v < minV {
+			minV = v
+		}
+		if v > maxV {
+			maxV = v
+		}
+	}
+
+	offset := minV
+	li := make([][]T, maxV-minV+1)
+	for i := range li {
+		li[i] = make([]T, 0, len(arr))
+	}
+	for _, v := range arr {
+		li[v-offset] = append(li[v-offset], v)
+	}
+
+	idx := 0
+	for _, l := range li {
+		for _, v := range l {
+			arr[idx] = v
+			idx++
+		}
+	}
+}
