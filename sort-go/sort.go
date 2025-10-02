@@ -65,3 +65,34 @@ func BubbleSort[T any](arr []T, less func(i, j int) bool) {
 		}
 	}
 }
+
+// 快速排序
+func QuickSort[T any](arr []T, less func(i, j int) bool) {
+	var quickSort func(int, int)
+	quickSort = func(left, right int) {
+		if left >= right {
+			return
+		}
+		start, end := left, right
+		for start < end {
+			for start < end && less(start, end) {
+				end--
+			}
+			if start < end {
+				arr[start], arr[end] = arr[end], arr[start]
+				start++
+			}
+			for start < end && less(start, end) {
+				start++
+			}
+			if start < end {
+				arr[start], arr[end] = arr[end], arr[start]
+				end--
+			}
+		}
+		quickSort(left, start-1)
+		quickSort(start+1, right)
+	}
+
+	quickSort(0, len(arr)-1)
+}
