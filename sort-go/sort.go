@@ -138,3 +138,37 @@ func MergeSort[T any](arr []T, less func(i, j int) bool) {
 
 	merge(0, len(arr)-1)
 }
+
+// 堆排序
+func HeapSort[T any](arr []T, less func(i, j int) bool) {
+	adjust := func(index int, end int) {
+		for index < end {
+			idx := index
+			left := index*2 + 1
+			right := index*2 + 2
+			if left <= end && less(idx, left) {
+				idx = left
+			}
+			if right <= end && less(idx, right) {
+				idx = right
+			}
+			if idx == index {
+				break
+			}
+			arr[index], arr[idx] = arr[idx], arr[index]
+			index = idx
+		}
+	}
+
+	build := func() {
+		for i := (len(arr) - 1 - 1) / 2; i >= 0; i-- {
+			adjust(i, len(arr)-1)
+		}
+	}
+
+	build()
+	for i := len(arr) - 1; i >= 0; i-- {
+		arr[0], arr[i] = arr[i], arr[0]
+		adjust(0, i-1)
+	}
+}
