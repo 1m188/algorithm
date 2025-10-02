@@ -49,3 +49,19 @@ func SelectSort[T any](arr []T, less func(i, j int) bool) {
 		arr[i], arr[min] = arr[min], arr[i]
 	}
 }
+
+// 冒泡排序
+func BubbleSort[T any](arr []T, less func(i, j int) bool) {
+	for i := len(arr) - 1; i > 0; i-- {
+		f := false
+		for j := 0; j < i; j++ {
+			if less(j+1, j) {
+				f = true
+				arr[j], arr[j+1] = arr[j+1], arr[j]
+			}
+		}
+		if !f {
+			break
+		}
+	}
+}
