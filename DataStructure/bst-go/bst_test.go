@@ -1,7 +1,9 @@
 package bstgo
 
 import (
+	"math/rand"
 	"testing"
+	"time"
 )
 
 // 升序返回 bst 里的数值
@@ -17,6 +19,24 @@ func find[T comparable](root *BSTNode[T]) []T {
 		mid(b.Right)
 	}
 	return res
+}
+
+// 生成随机整数序列：长度为length，元素范围 [min, max)
+func generateRandomInts(length, min, max int) []int {
+	if length <= 0 || max <= min {
+		return []int{}
+	}
+	// 设置种子：用当前时间的纳秒数，确保每次运行序列不同
+	// rand.Seed(time.Now().UnixNano()) // Go 1.20+ 中该方法已过时，推荐用下面的方式
+	// 新方式（Go 1.20+）：创建随机数生成器实例
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	seq := make([]int, length)
+	for i := range length {
+		// 生成 [min, max) 范围的随机数
+		seq[i] = min + r.Intn(max-min) // 若用新方式，这里改为 r.Intn(...)
+	}
+	return seq
 }
 
 func TestNew(t *testing.T) {
