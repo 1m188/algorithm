@@ -2,6 +2,7 @@ package bstgo
 
 import (
 	"math/rand"
+	"slices"
 	"testing"
 	"time"
 )
@@ -40,7 +41,18 @@ func generateRandomInts(length, min, max int) []int {
 }
 
 func TestNew(t *testing.T) {
-
+	insertInts := generateRandomInts(10, 0, 100)
+	bst := New(insertInts...)
+	mid := find(bst)
+	slices.Sort(insertInts)
+	if len(mid) != len(insertInts) {
+		t.Errorf("len(mid) = %d, want %d", len(mid), len(insertInts))
+	}
+	for i := range mid {
+		if mid[i] != insertInts[i] {
+			t.Errorf("mid[%d] = %d, want %d", i, mid[i], insertInts[i])
+		}
+	}
 }
 
 func TestInsert(t *testing.T) {
