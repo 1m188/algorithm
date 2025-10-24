@@ -19,6 +19,7 @@ func find[T comparable](root *BSTNode[T]) []T {
 		res = append(res, b.Val)
 		mid(b.Right)
 	}
+	mid(root)
 	return res
 }
 
