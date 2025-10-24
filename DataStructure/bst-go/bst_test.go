@@ -25,19 +25,25 @@ func find[T comparable](root *BSTNode[T]) []T {
 
 // 生成随机整数序列：长度为length，元素范围 [min, max)
 func generateRandomInts(length, min, max int) []int {
-	if length <= 0 || max <= min {
-		return []int{}
+	if length <= 0 || //
+		max <= min || //
+		length > max-min { // 保证长度小于范围，不出现重复值
+		panic("invalid parameters")
+	}
+
+	rangeSize := max - min
+	nums := make([]int, rangeSize)
+	for i := range rangeSize {
+		nums[i] = min + i
 	}
 
 	// 设置种子：用当前时间的纳秒数，确保每次运行序列不同
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	r.Shuffle(len(nums), func(i, j int) { // 打乱
+		nums[i], nums[j] = nums[j], nums[i]
+	})
 
-	seq := make([]int, length)
-	for i := range length {
-		// 生成 [min, max) 范围的随机数
-		seq[i] = min + r.Intn(max-min)
-	}
-	return seq
+	return nums[:length]
 }
 
 func TestNew(t *testing.T) {
