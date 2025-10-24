@@ -71,7 +71,45 @@ func TestInsert(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
+	insertInts := generateRandomInts(50, 0, 100)
+	bst := New(insertInts...)
 
+	compare := func(bst *BSTNode[int], insertInts []int) {
+		mid := find(bst)
+		insertInts_copy := make([]int, len(insertInts))
+		copy(insertInts_copy, insertInts)
+		slices.Sort(insertInts_copy)
+		if !slices.Equal(mid, insertInts_copy) {
+			t.Fatalf("mid = %v, want %v", mid, insertInts_copy)
+		}
+	}
+
+	// 删除叶子节点
+	x := slices.Min(insertInts)
+	bst.Remove(x)
+	insertInts = slices.DeleteFunc(insertInts, func(e int) bool { return e == x })
+	compare(bst, insertInts)
+
+	x = slices.Max(insertInts)
+	bst.Remove(x)
+	insertInts = slices.DeleteFunc(insertInts, func(e int) bool { return e == x })
+	compare(bst, insertInts)
+
+	// 删除同时具有左右分支节点
+	insertInts = []int{5, 1, 2, 3, 4, 6, 7, 8, 9, 10}
+	bst = New(insertInts...)
+	x = 5
+	bst.Remove(x)
+	insertInts = slices.DeleteFunc(insertInts, func(e int) bool { return e == x })
+	compare(bst, insertInts)
+
+	// 删除只具有单分支节点
+	insertInts = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	bst = New(insertInts...)
+	x = 9
+	bst.Remove(x)
+	insertInts = slices.DeleteFunc(insertInts, func(e int) bool { return e == x })
+	compare(bst, insertInts)
 }
 
 func TestFind(t *testing.T) {
