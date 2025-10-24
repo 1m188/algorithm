@@ -113,5 +113,11 @@ func TestRemove(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-
+	insertInts := generateRandomInts(10, 0, 100)
+	bst := New(insertInts...)
+	for _, x := range insertInts {
+		if bst.Find(x) == nil {
+			t.Fatalf("Find(%d) = false, want true", x)
+		}
+	}
 }
