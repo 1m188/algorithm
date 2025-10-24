@@ -45,18 +45,30 @@ func TestNew(t *testing.T) {
 	bst := New(insertInts...)
 	mid := find(bst)
 	slices.Sort(insertInts)
-	if len(mid) != len(insertInts) {
-		t.Errorf("len(mid) = %d, want %d", len(mid), len(insertInts))
-	}
-	for i := range mid {
-		if mid[i] != insertInts[i] {
-			t.Errorf("mid[%d] = %d, want %d", i, mid[i], insertInts[i])
-		}
+	if !slices.Equal(mid, insertInts) {
+		t.Fatalf("mid = %v, want %v", mid, insertInts)
 	}
 }
 
 func TestInsert(t *testing.T) {
+	insertInts := generateRandomInts(10, 0, 100)
+	bst := New(insertInts...)
 
+	mid := find(bst)
+	slices.Sort(insertInts)
+	if !slices.Equal(mid, insertInts) {
+		t.Fatalf("mid = %v, want %v", mid, insertInts)
+	}
+
+	for i := range 100 {
+		bst.Insert(i)
+		insertInts = append(insertInts, i)
+		mid = find(bst)
+		slices.Sort(insertInts)
+		if !slices.Equal(mid, insertInts) {
+			t.Fatalf("mid = %v, want %v", mid, insertInts)
+		}
+	}
 }
 
 func TestRemove(t *testing.T) {
