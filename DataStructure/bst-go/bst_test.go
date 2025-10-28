@@ -57,15 +57,17 @@ func TestNew(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	insertInts := generateRandomInts(10, 0, 100)
-	bst := New(insertInts...)
-	for i := range 100 {
-		bst.Insert(i)
-		insertInts = append(insertInts, i)
+	insertInts := generateRandomInts(100, 0, 100)
+	arr := make([]int, 10)
+	copy(arr, insertInts[:10])
+	bst := New(arr...)
+	for i := 10; i < len(insertInts); i++ {
+		bst.Insert(insertInts[i])
+		arr = append(arr, insertInts[i])
 		mid := find(bst)
-		slices.Sort(insertInts)
-		if !slices.Equal(mid, insertInts) {
-			t.Fatalf("mid = %v, want %v", mid, insertInts)
+		slices.Sort(arr)
+		if !slices.Equal(mid, arr) {
+			t.Fatalf("mid = %v, want %v", mid, arr)
 		}
 	}
 }
