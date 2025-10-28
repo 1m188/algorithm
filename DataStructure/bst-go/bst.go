@@ -21,13 +21,28 @@ type BSTNode[T Ordered] struct {
 }
 
 // 构建
-func New[T comparable](vals ...T) *BSTNode[T] {
-	return nil
+func New[T Ordered](vals ...T) *BSTNode[T] {
+	if len(vals) == 0 {
+		return nil
+	}
+	root := &BSTNode[T]{Val: vals[0]}
+	for i := 1; i < len(vals); i++ {
+		root = root.Insert(vals[i])
+	}
+	return root
 }
 
 // 插入
 func (node *BSTNode[T]) Insert(val T) *BSTNode[T] {
-	return nil
+	if node == nil {
+		return &BSTNode[T]{Val: val}
+	}
+	if val < node.Val {
+		node.Left = node.Left.Insert(val)
+	} else if val > node.Val {
+		node.Right = node.Right.Insert(val)
+	}
+	return node
 }
 
 // 删除
