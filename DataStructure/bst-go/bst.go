@@ -47,7 +47,32 @@ func (node *BSTNode[T]) Insert(val T) *BSTNode[T] {
 
 // 删除
 func (node *BSTNode[T]) Remove(val T) *BSTNode[T] {
-	return nil
+	if node == nil { // 空节点
+		return nil
+	}
+	if val < node.Val { // 往左
+		node.Left = node.Left.Remove(val)
+	} else if val > node.Val { // 往右
+		node.Right = node.Right.Remove(val)
+	} else {
+		if node.Left == nil && node.Right == nil { // 叶子节点
+			return nil
+		}
+		if !(node.Left != nil && node.Right != nil) { // 只有一个子节点
+			if node.Left != nil {
+				return node.Left
+			}
+			return node.Right
+		}
+		// 有两个子节点
+		minNode := node.Right
+		for minNode.Left != nil {
+			minNode = minNode.Left
+		}
+		node.Val = minNode.Val
+		node.Right = node.Right.Remove(minNode.Val)
+	}
+	return node
 }
 
 // 查找
