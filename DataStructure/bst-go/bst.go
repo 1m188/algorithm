@@ -52,5 +52,13 @@ func (node *BSTNode[T]) Remove(val T) *BSTNode[T] {
 
 // 查找
 func (node *BSTNode[T]) Find(val T) *BSTNode[T] {
-	return nil
+	if node == nil {
+		return nil
+	}
+	if val < node.Val {
+		return node.Left.Find(val)
+	} else if val > node.Val {
+		return node.Right.Find(val)
+	}
+	return node
 }
