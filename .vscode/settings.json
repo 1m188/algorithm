@@ -1,0 +1,18 @@
+{
+    // leetcode
+    // 用户配置里的 workspace 应指向 leetcode 目录
+    "leetcode-problem-rating.filePath": {
+        "default": {
+            "folder": "",
+            "filename": "${id}.${kebab-case-name}.${ext}"
+        },
+        "golang": {
+            "folder": "LC${id}",
+            "filename": "LC${id}.${ext}"
+        },
+        "rust": {
+            "folder": "../src/bin/",
+            "filename": "lc-${id}.${kebab-case-name}.${ext}"
+        }
+    },
+}

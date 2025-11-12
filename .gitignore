@@ -1,6 +1,11 @@
-.vscode/*
-!.vscode/tasks.json
+/.vscode/*
+!/.vscode/tasks.json
+!/.vscode/settings.json
 
-.vs/
+/.vs/
 
-leetcode/.lcpr_data/*
+# 忽略leetcode插件生成的文件
+/leetcode/.lcpr_data/
+
+# 忽略rust生成的target目录
+/target/
