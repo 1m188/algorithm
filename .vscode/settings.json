@@ -15,4 +15,20 @@
             "filename": "lc-${id}-${kebab-case-name}.${ext}"
         }
     },
+    "leetcode-problem-rating.includeTemplates": [
+        {
+            "language": "cpp",
+            "template": [
+                "using namespace std;",
+            ]
+        },
+        {
+            "language": "rust",
+            "template": [
+                "#![no_main]",
+                "#![allow(dead_code)]",
+                "struct Solution {}",
+            ]
+        }
+    ],
 }

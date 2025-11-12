@@ -74,7 +74,9 @@
  */
 
 // @lcpr-template-start
-
+#![no_main]
+#![allow(dead_code)]
+struct Solution {}
 // @lcpr-template-end
 // @lc code=start
 impl Solution {
@@ -83,10 +85,10 @@ impl Solution {
         nums.sort();
         let mut res: Vec<i32> = vec![];
         for i in (0..nums.len()).rev() {
-            if (res.len() >= k as usize) {
+            if res.len() >= k as usize {
                 break;
             }
-            if (res.len() == 0 || (*res.last().unwrap() != nums[i])) {
+            if res.len() == 0 || (*res.last().unwrap() != nums[i]) {
                 res.push(nums[i]);
             }
         }

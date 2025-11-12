@@ -57,7 +57,9 @@
  */
 
 // @lcpr-template-start
-
+#![no_main]
+#![allow(dead_code)]
+struct Solution {}
 // @lcpr-template-end
 // @lc code=start
 impl Solution {
