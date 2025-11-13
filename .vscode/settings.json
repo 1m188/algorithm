@@ -12,7 +12,7 @@
         },
         "rust": {
             "folder": "../src/bin/",
-            "filename": "lc-${id}-${kebab-case-name}.${ext}"
+            "filename": "lc-${id}.${ext}"
         }
     },
     "leetcode-problem-rating.includeTemplates": [
