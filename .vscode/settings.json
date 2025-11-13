@@ -12,7 +12,7 @@
         },
         "rust": {
             "folder": "../src/bin/",
-            "filename": "lc-${id}.${ext}"
+            "filename": "lc_${id}.${ext}"
         }
     },
     "leetcode-problem-rating.includeTemplates": [
