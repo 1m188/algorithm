@@ -212,19 +212,19 @@
         {
             "label": "nowcoder_go",
             "type": "shell",
-            "detail": "在nowcoder目录下创建go文件",
+            "detail": "在nowcoder目录下创建牛客刷题go文件",
             "windows": {
                 "command": "mkdir",
                 "args": [
-                    "${input:nowcoder_go}",
+                    "${input:nowcoder}",
                     "&&",
                     "cd",
-                    "${input:nowcoder_go}",
+                    "${input:nowcoder}",
                     "&&",
                     "type",
                     "nul",
                     ">>",
-                    "${input:nowcoder_go}.go",
+                    "${input:nowcoder}.go",
                 ],
                 "options": {
                     "shell": {
@@ -239,13 +239,38 @@
             "options": {
                 "cwd": "nowcoder",
             },
+        },
+        {
+            "label": "nowcoder_rs",
+            "type": "shell",
+            "detail": "在src/bin目录下创建牛客刷题rust文件",
+            "windows": {
+                "command": "type",
+                "args": [
+                    "nul",
+                    ">>",
+                    "nowcoder_${input:nowcoder}.rs",
+                ],
+                "options": {
+                    "shell": {
+                        "executable": "cmd",
+                        "args": [
+                            "/d",
+                            "/c"
+                        ],
+                    },
+                }
+            },
+            "options": {
+                "cwd": "src/bin",
+            },
         }
     ],
     "inputs": [
         {
-            "id": "nowcoder_go",
+            "id": "nowcoder",
             "type": "promptString",
-            "description": "请输入文件名"
+            "description": "请输入牛客题目文件名称"
         }
     ]
 }
