@@ -4,6 +4,19 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "dotnet run",
+            "detail": "dotnet 10 以后支持的单文件脚本模式",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "${fileBasename}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
             "label": "java",
             "type": "shell",
             "command": "java",
