@@ -66,24 +66,22 @@ internal class StackList<T> : IStack<T>
     private class Node
     {
         public required T data;
-        public Node? prev;
         public Node? next;
     }
 
-    private Node? top; // 链表尾部（栈顶）
+    private Node? top; // 栈顶
     private int size; // 栈的大小
 
     public void Push(T item)
     {
-        var node = new Node { data = item, prev = null, next = null };
+        var node = new Node { data = item };
         if (top == null)
         {
             top = node;
         }
         else
         {
-            top.next = node;
-            node.prev = top;
+            node.next = top;
             top = node;
         }
         size++;
@@ -92,8 +90,7 @@ internal class StackList<T> : IStack<T>
     {
         if (top == null) throw new Exception("Stack is empty");
         T data = top.data;
-        top = top.prev;
-        top?.next = null;
+        top = top.next;
         size--;
         return data;
     }
