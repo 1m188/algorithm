@@ -1,152 +1,258 @@
 /*
 
-基于 Rust 的单链表实现
+基于 Rust 的线性表实现
 
 */
 
-use std::fmt;
+use std::ops::{Index, IndexMut};
 
-// 链表节点定义
+// 线性表接口
+trait Linear<T>: Index<usize, Output = T> + IndexMut<usize, Output = T> {
+    fn new() -> Self;
+    fn len(&self) -> usize;
+    fn add(&mut self, data: T) -> bool;
+    fn insert(&mut self, index: usize, data: T) -> bool;
+    fn del_v(&mut self, val: &T) -> Option<T>
+    where
+        T: Eq;
+    fn del_i(&mut self, index: usize) -> Option<T>;
+    fn index_of(&self, val: &T) -> Option<usize>
+    where
+        T: Eq;
+    fn clear(&mut self);
+}
+
+// 单向链表节点定义
 struct Node<T> {
     data: T,
     next: Option<Box<Node<T>>>,
 }
 
-impl<T: fmt::Display> fmt::Display for Node<T> {
-    // 链表的字符串表示
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut vec: Vec<String> = Vec::new();
-        vec.push(self.data.to_string());
-        let mut cur = self;
-        while cur.next.is_some() {
-            cur = cur.next.as_ref().unwrap();
-            vec.push(cur.data.to_string());
-        }
-        let txt = vec.join("->");
-        write!(f, "{}", txt)
-    }
+// 基于单向链表的线性表实现
+struct LinearLinkList<T> {
+    head: Option<Box<Node<T>>>, // 头节点
+    size: usize,                // 链表长度
 }
 
-impl<T: Clone> Node<T> {
-    // 创建一个链表
-    fn new(datas: &Vec<T>) -> Option<Box<Node<T>>> {
-        if datas.is_empty() {
+impl<T> Linear<T> for LinearLinkList<T> {
+    fn new() -> Self {
+        LinearLinkList {
+            head: None,
+            size: 0,
+        }
+    }
+
+    fn len(&self) -> usize {
+        self.size
+    }
+
+    fn add(&mut self, data: T) -> bool {
+        if self.head.is_none() {
+            self.head = Some(Box::new(Node {
+                data: data,
+                next: None,
+            }))
+        } else {
+            let mut cur = &mut self.head;
+            while cur.as_ref().unwrap().next.is_some() {
+                cur = &mut cur.as_mut().unwrap().next;
+            }
+            cur.as_mut().unwrap().next = Some(Box::new(Node {
+                data: data,
+                next: None,
+            }))
+        }
+        self.size += 1;
+        true
+    }
+
+    fn insert(&mut self, index: usize, data: T) -> bool {
+        if index >= self.size {
+            return false; // 索引超出范围
+        }
+        if index == 0 {
+            let mut new_head = Some(Box::new(Node {
+                data: data,
+                next: self.head.take(),
+            }));
+            self.head = new_head.take();
+        } else {
+            let mut cur = &mut self.head;
+            for _ in 0..index - 1 {
+                cur = &mut cur.as_mut().unwrap().next;
+            }
+            let mut node = Some(Box::new(Node {
+                data: data,
+                next: None,
+            }));
+            node.as_mut().unwrap().next = cur.as_mut().unwrap().next.take();
+            cur.as_mut().unwrap().next = node.take();
+        }
+        self.size += 1;
+        true
+    }
+
+    fn del_v(&mut self, val: &T) -> Option<T>
+    where
+        T: Eq,
+    {
+        if self.head.is_none() {
             return None;
         }
-
-        let mut head = Node {
-            data: datas[0].clone(),
-            next: None,
-        };
-        let mut cur = &mut head;
-        for i in 1..datas.len() {
-            let node = Node {
-                data: datas[i].clone(),
-                next: None,
-            };
-            cur.next = Some(Box::new(node));
-            cur = cur.next.as_mut().unwrap();
+        if self.head.as_ref().unwrap().data == *val {
+            let mut node = self.head.take();
+            self.head = node.as_mut().unwrap().next.take();
+            self.size -= 1;
+            return Some(node.unwrap().data);
         }
 
-        Some(Box::new(head))
+        let mut cur = &mut self.head;
+        while cur.as_ref().unwrap().next.is_some() {
+            if cur.as_ref().unwrap().next.as_ref().unwrap().data == *val {
+                let mut next = cur.as_mut().unwrap().next.take();
+                let mut nnext = next.as_mut().unwrap().next.take();
+                cur.as_mut().unwrap().next = nnext.take();
+                self.size -= 1;
+                return Some(next.unwrap().data);
+            } else {
+                cur = &mut cur.as_mut().unwrap().next;
+            }
+        }
+
+        None
+    }
+
+    fn del_i(&mut self, index: usize) -> Option<T> {
+        if index >= self.size {
+            return None;
+        }
+        if index == 0 {
+            let mut node = self.head.take();
+            self.head = node.as_mut().unwrap().next.take();
+            self.size -= 1;
+            return Some(node.unwrap().data);
+        } else {
+            let mut cur = &mut self.head;
+            for _ in 0..index - 1 {
+                cur = &mut cur.as_mut().unwrap().next;
+            }
+            let mut next = cur.as_mut().unwrap().next.take();
+            cur.as_mut().unwrap().next = next.as_mut().unwrap().next.take();
+            self.size -= 1;
+            return Some(next.unwrap().data);
+        }
+    }
+
+    fn index_of(&self, val: &T) -> Option<usize>
+    where
+        T: Eq,
+    {
+        let mut cur = self.head.as_ref();
+        let mut res = None;
+        let mut index: usize = 0;
+        while cur.is_some() {
+            if cur.unwrap().data == *val {
+                res = Some(index);
+                break;
+            } else {
+                index += 1;
+                cur = cur.unwrap().next.as_ref();
+            }
+        }
+        res
+    }
+
+    fn clear(&mut self) {
+        self.head = None;
+        self.size = 0;
     }
 }
 
-// 追加节点
-fn add_node<T: Eq>(mut head: Option<Box<Node<T>>>, data: T) -> Option<Box<Node<T>>> {
-    if head.is_none() {
-        return Some(Box::new(Node { data, next: None }));
-    }
-
-    let mut cur = &mut head;
-    while cur.as_ref().unwrap().next.is_some() {
-        cur = &mut cur.as_mut().unwrap().next;
-    }
-
-    cur.as_mut().unwrap().next = Some(Box::new(Node { data, next: None }));
-
-    head
-}
-
-// 删除链表节点
-fn delete_node<T: Eq>(mut head: Option<Box<Node<T>>>, data: &T) -> Option<Box<Node<T>>> {
-    if head.is_none() {
-        return None;
-    }
-    if head.as_ref().unwrap().data == *data {
-        return head.unwrap().next;
-    }
-
-    let mut cur = &mut head;
-    while cur.as_ref().unwrap().next.is_some() {
-        if cur.as_ref().unwrap().next.as_ref().unwrap().data == *data {
-            let next = &mut cur.as_mut().unwrap().next;
-            let nnext = &mut next.as_mut().unwrap().next;
-            cur.as_mut().unwrap().next = nnext.take();
-            return head;
+impl<T> Index<usize> for LinearLinkList<T> {
+    type Output = T;
+    fn index(&self, index: usize) -> &Self::Output {
+        if index >= self.size {
+            panic!("Index out of range");
         }
-        cur = &mut cur.as_mut().unwrap().next;
-    }
 
-    head
-}
-
-// 修改节点数据
-fn change_node<T: Eq>(
-    mut head: Option<Box<Node<T>>>,
-    data: &T,
-    new_data: T,
-) -> Option<Box<Node<T>>> {
-    let mut cur = &mut head;
-    while cur.is_some() {
-        if cur.as_ref().unwrap().data == *data {
-            cur.as_mut().unwrap().data = new_data;
-            break;
+        let mut cur = self.head.as_ref();
+        for _ in 0..index {
+            cur = cur.unwrap().next.as_ref();
         }
-        cur = &mut cur.as_mut().unwrap().next;
+        &cur.unwrap().data
     }
-    head
 }
-
-// 查找节点
-fn find_node<'a, T: Eq>(head: &'a Option<Box<Node<T>>>, data: &T) -> Option<&'a Box<Node<T>>> {
-    let mut cur = head;
-    while cur.is_some() {
-        if cur.as_ref().unwrap().data == *data {
-            return Some(cur.as_ref().unwrap());
+impl<T> IndexMut<usize> for LinearLinkList<T> {
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        if index >= self.size {
+            panic!("Index out of range");
         }
-        cur = &cur.as_ref().unwrap().next;
+
+        let mut cur = self.head.as_mut();
+        for _ in 0..index {
+            cur = cur.unwrap().next.as_mut();
+        }
+        &mut cur.unwrap().data
     }
-    None
 }
 
 // 测试
+fn test(mut linear: impl Linear<i32>) {
+    for i in (1..=10).step_by(2) {
+        assert!(linear.add(i));
+    }
+    let mut str = String::new();
+    for i in 0..linear.len() {
+        str.push_str(&format!("{} ", linear[i]));
+    }
+    str.pop();
+    assert_eq!(str, "1 3 5 7 9");
+    assert_eq!(linear.len(), 5);
+
+    linear.insert(0, 2);
+    linear.insert(1, 4);
+    linear.insert(2, 6);
+    linear.insert(3, 8);
+    linear.insert(4, 10);
+    str.clear();
+    for i in 0..linear.len() {
+        str.push_str(&format!("{} ", linear[i]));
+    }
+    str.pop();
+    assert_eq!(str, "2 4 6 8 10 1 3 5 7 9");
+    assert_eq!(linear.len(), 10);
+
+    assert!(linear.index_of(&2).is_some() && linear.index_of(&2).unwrap() == 0);
+    assert!(linear.index_of(&4).is_some() && linear.index_of(&4).unwrap() == 1);
+    assert!(linear.index_of(&9).is_some() && linear.index_of(&9).unwrap() == 9);
+
+    assert_eq!(linear.del_i(0).unwrap(), 2);
+    assert_eq!(linear.len(), 9);
+    str.clear();
+    for i in 0..linear.len() {
+        str.push_str(&format!("{} ", linear[i]));
+    }
+    str.pop();
+    assert_eq!(str, "4 6 8 10 1 3 5 7 9");
+
+    assert_eq!(linear.del_v(&10).unwrap(), 10);
+    assert_eq!(linear.len(), 8);
+    str.clear();
+    for i in 0..linear.len() {
+        str.push_str(&format!("{} ", linear[i]));
+    }
+    str.pop();
+    assert_eq!(str, "4 6 8 1 3 5 7 9");
+
+    linear[0] = 11;
+    assert_eq!(linear[0], 11);
+
+    linear.clear();
+    assert_eq!(linear.len(), 0);
+}
+
 fn main() {
-    let mut head = Node::new(&vec![5, 4, 3, 7, 8, 9, 10]);
-    assert_eq!(head.as_ref().unwrap().to_string(), "5->4->3->7->8->9->10");
+    test(LinearLinkList::<i32>::new());
 
-    head = delete_node(head, &5);
-    assert_eq!(head.as_ref().unwrap().to_string(), "4->3->7->8->9->10");
-    head = delete_node(head, &9);
-    assert_eq!(head.as_ref().unwrap().to_string(), "4->3->7->8->10");
-    head = delete_node(head, &10);
-    assert_eq!(head.as_ref().unwrap().to_string(), "4->3->7->8");
-    head = delete_node(head, &11);
-    assert_eq!(head.as_ref().unwrap().to_string(), "4->3->7->8");
-    head = add_node(head, 11);
-    assert_eq!(head.as_ref().unwrap().to_string(), "4->3->7->8->11");
-
-    let mut node = find_node(&head, &4);
-    assert_eq!(node.unwrap().data, 4);
-    node = find_node(&head, &7);
-    assert_eq!(node.unwrap().data, 7);
-    node = find_node(&head, &11);
-    assert_eq!(node.unwrap().data, 11);
-
-    head = change_node(head, &4, 5);
-    assert_eq!(head.as_ref().unwrap().to_string(), "5->3->7->8->11");
-    head = change_node(head, &11, 12);
-    assert_eq!(head.as_ref().unwrap().to_string(), "5->3->7->8->12");
-    head = change_node(head, &7, 9);
-    assert_eq!(head.as_ref().unwrap().to_string(), "5->3->9->8->12");
+    println!("All tests passed.");
 }
