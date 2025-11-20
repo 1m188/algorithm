@@ -198,25 +198,48 @@ impl<T> IndexMut<usize> for LinearLinkList<T> {
 
 // 基于数组的线性表实现
 struct LinearArray<T> {
-    data: Vec<T>,
+    data: Box<[T]>,
+    size: usize,
+    cap: usize,
 }
 
-impl<T> Linear<T> for LinearArray<T> {
+impl<T: Clone + Default> Linear<T> for LinearArray<T> {
     fn new() -> Self {
-        LinearArray { data: Vec::new() }
+        LinearArray {
+            data: Box::new([T::default(); 1]),
+            size: 0,
+            cap: 1,
+        }
     }
 
     fn len(&self) -> usize {
-        self.data.len()
+        self.size
     }
 
     fn add(&mut self, data: T) -> bool {
-        self.data.push(data);
+        // 扩容
+        if self.size >= self.cap {
+            let mut data = vec![T::default(); self.cap * 2].into_boxed_slice();
+            self.cap *= 2;
+            for i in 0..self.size {
+                data[i] = self.data[i].clone();
+            }
+            self.data = data;
+        }
+        self.data[self.size] = data;
+        self.size += 1;
         true
     }
 
     fn insert(&mut self, index: usize, data: T) -> bool {
-        self.data.insert(index, data);
+        if index >= self.size {
+            return false;
+        }
+        self.add(T::default());
+        for i in (index..self.size - 1).rev() {
+            self.data[i + 1] = self.data[i].clone();
+        }
+        self.data[index] = data;
         true
     }
 
@@ -224,18 +247,24 @@ impl<T> Linear<T> for LinearArray<T> {
     where
         T: Eq,
     {
-        let index = self.data.iter().position(|x| x == val);
-        if index.is_some() {
-            return Some(self.data.remove(index.unwrap()));
+        for i in 0..self.size {
+            if self.data[i] == *val {
+                return self.del_i(i);
+            }
         }
         None
     }
 
     fn del_i(&mut self, index: usize) -> Option<T> {
-        if index >= self.data.len() {
+        if index >= self.size {
             return None;
         }
-        Some(self.data.remove(index))
+        let ret = self.data[index].clone();
+        for i in index..self.size - 1 {
+            self.data[i] = self.data[i + 1].clone();
+        }
+        self.size -= 1;
+        Some(ret)
     }
 
     fn index_of(&self, val: &T) -> Option<usize>
@@ -246,7 +275,7 @@ impl<T> Linear<T> for LinearArray<T> {
     }
 
     fn clear(&mut self) {
-        self.data.clear();
+        *self = LinearArray::new();
     }
 }
 
