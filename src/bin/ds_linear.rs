@@ -196,6 +196,80 @@ impl<T> IndexMut<usize> for LinearLinkList<T> {
     }
 }
 
+// 基于数组的线性表实现
+struct LinearArray<T> {
+    data: Vec<T>,
+}
+
+impl<T> Linear<T> for LinearArray<T> {
+    fn new() -> Self {
+        LinearArray { data: Vec::new() }
+    }
+
+    fn len(&self) -> usize {
+        self.data.len()
+    }
+
+    fn add(&mut self, data: T) -> bool {
+        self.data.push(data);
+        true
+    }
+
+    fn insert(&mut self, index: usize, data: T) -> bool {
+        self.data.insert(index, data);
+        true
+    }
+
+    fn del_v(&mut self, val: &T) -> Option<T>
+    where
+        T: Eq,
+    {
+        let index = self.data.iter().position(|x| x == val);
+        if index.is_some() {
+            return Some(self.data.remove(index.unwrap()));
+        }
+        None
+    }
+
+    fn del_i(&mut self, index: usize) -> Option<T> {
+        if index >= self.data.len() {
+            return None;
+        }
+        Some(self.data.remove(index))
+    }
+
+    fn index_of(&self, val: &T) -> Option<usize>
+    where
+        T: Eq,
+    {
+        self.data.iter().position(|x| x == val)
+    }
+
+    fn clear(&mut self) {
+        self.data.clear();
+    }
+}
+
+impl<T> Index<usize> for LinearArray<T> {
+    type Output = T;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        if index >= self.data.len() {
+            panic!("index out of range");
+        }
+        self.data.get(index).unwrap()
+    }
+}
+
+impl<T> IndexMut<usize> for LinearArray<T> {
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        if index >= self.data.len() {
+            panic!("index out of range");
+        }
+        self.data.get_mut(index).unwrap()
+    }
+}
+
 // 测试
 fn test(mut linear: impl Linear<i32>) {
     for i in (1..=10).step_by(2) {
@@ -253,6 +327,7 @@ fn test(mut linear: impl Linear<i32>) {
 
 fn main() {
     test(LinearLinkList::<i32>::new());
+    test(LinearArray::<i32>::new());
 
     println!("All tests passed.");
 }
