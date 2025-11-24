@@ -12,6 +12,93 @@ trait Queue<T> {
     fn clear(&mut self);
 }
 
+// 链表节点 unsafe
+struct NodeUnsafe<T> {
+    val: T,
+    next: *mut NodeUnsafe<T>,
+}
+
+// 基于链表的队列实现 unsafe
+struct QueueLinkListUnsafe<T> {
+    head: *mut NodeUnsafe<T>,
+    tail: *mut NodeUnsafe<T>,
+    len: usize,
+}
+
+impl<T> QueueLinkListUnsafe<T> {
+    fn new() -> Self {
+        QueueLinkListUnsafe {
+            head: std::ptr::null_mut(),
+            tail: std::ptr::null_mut(),
+            len: 0,
+        }
+    }
+}
+
+impl<T> Queue<T> for QueueLinkListUnsafe<T> {
+    fn enqueue(&mut self, item: T) {
+        let node = Box::into_raw(Box::new(NodeUnsafe {
+            val: item,
+            next: std::ptr::null_mut(),
+        }));
+        if self.len == 0 {
+            self.head = node;
+            self.tail = node;
+        } else {
+            unsafe {
+                (*self.tail).next = node;
+                self.tail = (*self.tail).next;
+            };
+        }
+        self.len += 1;
+    }
+
+    fn dequeue(&mut self) -> Option<T> {
+        if self.len == 0 {
+            return None;
+        }
+        let node = self.head;
+        unsafe {
+            self.head = (*self.head).next;
+            if self.len == 1 {
+                self.tail = std::ptr::null_mut();
+            }
+        }
+        self.len -= 1;
+        unsafe { Some(Box::from_raw(node).val) }
+    }
+
+    fn head(&self) -> Option<&T> {
+        match self.len {
+            0 => None,
+            _ => unsafe { Some(&(*self.head).val) },
+        }
+    }
+
+    fn tail(&self) -> Option<&T> {
+        match self.len {
+            0 => None,
+            _ => unsafe { Some(&(*self.tail).val) },
+        }
+    }
+
+    fn len(&self) -> usize {
+        self.len
+    }
+
+    fn clear(&mut self) {
+        let mut cur = self.head;
+        self.head = std::ptr::null_mut();
+        self.tail = std::ptr::null_mut();
+        self.len = 0;
+        while cur != std::ptr::null_mut() {
+            unsafe {
+                cur = Box::from_raw(cur).next;
+            };
+        }
+    }
+}
+
 // 链表节点
 struct Node<T> {
     val: T,
@@ -244,5 +331,6 @@ fn main() {
     test(QueueLinkList::<i32>::new(), "QueueLinkList");
     test(QueueList::<i32>::new(), "QueueList");
     test(QueueArray::<i32>::new(10), "QueueArray");
+    test(QueueLinkListUnsafe::<i32>::new(), "QueueLinkListUnsafe");
     println!("All tests passed.");
 }
