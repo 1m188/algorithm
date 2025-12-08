@@ -130,23 +130,51 @@ type LinearArray[T comparable] struct {
 }
 
 func (li *LinearArray[T]) Append(v *T) error {
-
+	li.vec = append(li.vec, *v)
+	return nil
 }
 
 func (li *LinearArray[T]) Insert(i int, v *T) error {
+	if i < 0 || i > len(li.vec) {
+		return errors.New("index out of range")
+	}
+	li.vec = append(li.vec, *v)
+	copy(li.vec[i+1:], li.vec[i:])
+	li.vec[i] = *v
+	return nil
 }
 
 func (li *LinearArray[T]) Remove(i int) (*T, error) {
+	if i < 0 || i >= len(li.vec) {
+		return nil, errors.New("index out of range")
+	}
+	v := li.vec[i]
+	li.vec = append(li.vec[:i], li.vec[i+1:]...)
+	return &v, nil
 }
 
 func (li *LinearArray[T]) Set(i int, v *T) error {
+	if i < 0 || i >= len(li.vec) {
+		return errors.New("index out of range")
+	}
+	li.vec[i] = *v
+	return nil
 }
 
 func (li *LinearArray[T]) IndexOf(v *T) (int, error) {
+	for i, node := range li.vec {
+		if node == *v {
+			return i, nil
+		}
+	}
+	return -1, errors.New("not found")
 }
 
 func (li *LinearArray[T]) At(i int) (*T, error) {
-
+	if i < 0 || i >= len(li.vec) {
+		return nil, errors.New("index out of range")
+	}
+	return &li.vec[i], nil
 }
 
 func (li *LinearArray[T]) Length() int {
