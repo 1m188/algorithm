@@ -9,7 +9,7 @@ func testLinear(linear *ILinear[int], t *testing.T) {
 	for i := 0; i < 10; i++ {
 		err = li.Append(&i)
 		if err != nil {
-			t.Fatal("append failed")
+			t.Fatal(err)
 		}
 	}
 	if li.Length() != 10 {
@@ -19,7 +19,7 @@ func testLinear(linear *ILinear[int], t *testing.T) {
 	x := -1
 	err = li.Insert(0, &x)
 	if err != nil {
-		t.Fatal("insert failed")
+		t.Fatal(err)
 	}
 	if li.Length() != 11 {
 		t.Fatal("length failed")
@@ -27,7 +27,7 @@ func testLinear(linear *ILinear[int], t *testing.T) {
 
 	v, err := li.At(0)
 	if err != nil {
-		t.Fatal("at failed")
+		t.Fatal(err)
 	}
 	if *v != -1 {
 		t.Fatal("at failed")
@@ -35,7 +35,7 @@ func testLinear(linear *ILinear[int], t *testing.T) {
 
 	v, err = li.Remove(0)
 	if err != nil {
-		t.Fatal("remove failed")
+		t.Fatal(err)
 	}
 	if *v != -1 {
 		t.Fatal("remove failed")
@@ -45,24 +45,32 @@ func testLinear(linear *ILinear[int], t *testing.T) {
 	}
 
 	x = 9
-	vv, err := li.IndexOf(&x)
+	idx, err := li.IndexOf(&x)
 	if err != nil {
-		t.Fatal("indexof failed")
+		t.Fatal(err)
 	}
-	if vv != x {
+	vv, err := li.At(idx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if *vv != x {
 		t.Fatal("indexof failed")
 	}
 
 	x = 111
 	err = li.Set(9, &x)
 	if err != nil {
-		t.Fatal("set failed")
+		t.Fatal(err)
 	}
-	vv, err = li.IndexOf(&x)
+	idx, err = li.IndexOf(&x)
 	if err != nil {
-		t.Fatal("indexof failed")
+		t.Fatal(err)
 	}
-	if vv != x {
+	vv, err = li.At(idx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if *vv != x {
 		t.Fatal("indexof failed")
 	}
 }
@@ -72,7 +80,5 @@ func TestMain(t *testing.T) {
 	linearlist = &LinearList[int]{}
 	testLinear(&linearlist, t)
 	linearlist = &LinearArray[int]{}
-	testLinear(&linearlist, t)
-	linearlist = &LinearImmutableArray[int]{}
 	testLinear(&linearlist, t)
 }

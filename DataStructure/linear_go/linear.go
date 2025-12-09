@@ -49,11 +49,12 @@ func (li *LinearList[T]) Insert(i int, v *T) error {
 	}
 
 	li.length++
-	if i == 0 {
+	switch i {
+	case 0:
 		li.head = &Node[T]{Val: v, Next: li.head}
-	} else if i == li.length {
+	case li.length:
 		li.Append(v)
-	} else {
+	default:
 		node := li.head
 		for j := 0; j < i-1; j++ {
 			node = node.Next
@@ -90,7 +91,7 @@ func (li *LinearList[T]) Set(i int, v *T) error {
 	}
 
 	node := li.head
-	for j := 0; j < i; j++ {
+	for range i {
 		node = node.Next
 	}
 	node.Val = v
@@ -100,7 +101,7 @@ func (li *LinearList[T]) Set(i int, v *T) error {
 func (li *LinearList[T]) IndexOf(v *T) (int, error) {
 	index := 0
 	for node := li.head; node != nil; node = node.Next {
-		if node.Val == v {
+		if *node.Val == *v {
 			return index, nil
 		}
 		index++
@@ -114,7 +115,7 @@ func (li *LinearList[T]) At(i int) (*T, error) {
 	}
 
 	node := li.head
-	for j := 0; j < i; j++ {
+	for range i {
 		node = node.Next
 	}
 	return node.Val, nil
@@ -179,35 +180,4 @@ func (li *LinearArray[T]) At(i int) (*T, error) {
 
 func (li *LinearArray[T]) Length() int {
 	return len(li.vec)
-}
-
-// 基于不可变数组实现的线性表
-type LinearImmutableArray[T comparable] struct {
-	arr  [1]T
-	cap  int
-	size int
-}
-
-func (li *LinearImmutableArray[T]) Append(v *T) error {
-
-}
-
-func (li *LinearImmutableArray[T]) Insert(i int, v *T) error {
-}
-
-func (li *LinearImmutableArray[T]) Remove(i int) (*T, error) {
-}
-
-func (li *LinearImmutableArray[T]) Set(i int, v *T) error {
-}
-
-func (li *LinearImmutableArray[T]) IndexOf(v *T) (int, error) {
-}
-
-func (li *LinearImmutableArray[T]) At(i int) (*T, error) {
-
-}
-
-func (li *LinearImmutableArray[T]) Length() int {
-	return li.size
 }
