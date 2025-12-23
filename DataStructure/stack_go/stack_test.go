@@ -46,6 +46,9 @@ func test(t *testing.T, s Stack[int]) {
 }
 
 func TestStack(t *testing.T) {
-	stack := StackSlice[int]{}
-	test(t, &stack)
+	stackSlice := StackSlice[int]{}
+	test(t, &stackSlice)
+
+	stackLinkedList := StackLinkedList[int]{}
+	test(t, &stackLinkedList)
 }

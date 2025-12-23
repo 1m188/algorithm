@@ -47,3 +47,35 @@ func (s *StackSlice[T]) Size() uint64 {
 func (s *StackSlice[T]) Clear() {
 	s.data = []T{}
 }
+
+// 链表节点
+type Node[T any] struct {
+	Val  T        // 节点值
+	Next *Node[T] // 下一个节点
+}
+
+// 基于链表的栈实现
+type StackLinkedList[T any] struct {
+	TopNode *Node[T] // 栈顶节点
+	Len     uint64   // 栈大小
+}
+
+func (s *StackLinkedList[T]) Push(v *T) {
+
+}
+
+func (s *StackLinkedList[T]) Pop() *T {
+
+}
+
+func (s *StackLinkedList[T]) Top() *T {
+
+}
+
+func (s *StackLinkedList[T]) Size() uint64 {
+
+}
+
+func (s *StackLinkedList[T]) Clear() {
+
+}
