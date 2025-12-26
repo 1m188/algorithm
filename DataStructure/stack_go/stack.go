@@ -19,6 +19,9 @@ type StackSlice[T any] struct {
 }
 
 func (s *StackSlice[T]) Push(v *T) {
+	if v == nil {
+		return
+	}
 	s.data = append(s.data, *v)
 }
 
@@ -61,6 +64,9 @@ type StackLinkedList[T any] struct {
 }
 
 func (s *StackLinkedList[T]) Push(v *T) {
+	if v == nil {
+		return
+	}
 	if s.TopNode == nil {
 		s.TopNode = &Node[T]{Val: *v}
 	} else {
