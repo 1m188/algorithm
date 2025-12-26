@@ -61,21 +61,38 @@ type StackLinkedList[T any] struct {
 }
 
 func (s *StackLinkedList[T]) Push(v *T) {
-
+	if s.TopNode == nil {
+		s.TopNode = &Node[T]{Val: *v}
+	} else {
+		s.TopNode = &Node[T]{Val: *v, Next: s.TopNode}
+	}
+	s.Len++
 }
 
 func (s *StackLinkedList[T]) Pop() *T {
-
+	if s.TopNode == nil {
+		return nil
+	} else {
+		v := s.TopNode.Val
+		s.TopNode = s.TopNode.Next
+		s.Len--
+		return &v
+	}
 }
 
 func (s *StackLinkedList[T]) Top() *T {
-
+	if s.TopNode == nil {
+		return nil
+	} else {
+		return &s.TopNode.Val
+	}
 }
 
 func (s *StackLinkedList[T]) Size() uint64 {
-
+	return s.Len
 }
 
 func (s *StackLinkedList[T]) Clear() {
-
+	s.TopNode = nil
+	s.Len = 0
 }
