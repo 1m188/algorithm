@@ -249,8 +249,20 @@
                     },
                 }
             },
+            "linux": {
+                "command": "mkdir",
+                "args": [
+                    "${input:nowcoder}",
+                    "&&",
+                    "cd",
+                    "${input:nowcoder}",
+                    "&&",
+                    "touch",
+                    "${input:nowcoder}.go",
+                ],
+            },
             "options": {
-                "cwd": "nowcoder",
+                "cwd": "${workspaceFolder}/nowcoder",
             },
         },
         {
@@ -274,8 +286,14 @@
                     },
                 }
             },
+            "linux": {
+                "command": "touch",
+                "args": [
+                    "nowcoder_${input:nowcoder}.rs",
+                ],
+            },
             "options": {
-                "cwd": "src/bin",
+                "cwd": "${workspaceFolder}/src/bin",
             },
         }
     ],
