@@ -10,7 +10,7 @@ import (
 )
 
 // 大数算法，适配高精度
-func quickpow(x *big.Int, n *big.Int) (*big.Int, error) {
+func QuickPow(x *big.Int, n *big.Int) (*big.Int, error) {
 	if x.Cmp(big.NewInt(0)) == 0 {
 		return big.NewInt(0), nil
 	}
@@ -30,10 +30,10 @@ func quickpow(x *big.Int, n *big.Int) (*big.Int, error) {
 	last := n_str[len(n_str)-1]
 	if last == '0' || last == '2' || last == '4' || last == '6' || last == '8' {
 		x_new, n_new := new(big.Int), new(big.Int)
-		return quickpow(x_new.Mul(x, x), n_new.Rsh(n, 1))
+		return QuickPow(x_new.Mul(x, x), n_new.Rsh(n, 1))
 	} else {
 		x_new, n_new := new(big.Int), new(big.Int)
-		a, err := quickpow(x_new.Mul(x, x), n_new.Rsh(n, 1))
+		a, err := QuickPow(x_new.Mul(x, x), n_new.Rsh(n, 1))
 		if err != nil {
 			return a, err
 		}

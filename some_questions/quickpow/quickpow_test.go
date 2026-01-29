@@ -8,7 +8,7 @@ import (
 func TestQuickPow(t *testing.T) {
 
 	test := func(x *big.Int, n *big.Int, z *big.Int) {
-		ans, err := quickpow(x, n)
+		ans, err := QuickPow(x, n)
 		if err != nil {
 			t.Fatal(err)
 		}
