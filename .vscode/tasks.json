@@ -10,7 +10,9 @@
             "command": "dotnet",
             "args": [
                 "run",
-                "${fileBasename}"
+                "${fileBasename}",
+                "-c",
+                "Release"
             ],
             "options": {
                 "cwd": "${fileDirname}"
