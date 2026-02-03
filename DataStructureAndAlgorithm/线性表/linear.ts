@@ -89,7 +89,9 @@ class LinearList<T> implements ILinear<T> {
     get length() { return this._length; }
 
     push(item: NonNullable<T>): boolean {
-        const node = new Node(item);
+        let node: Node<T> | null = null;
+        try { node = new Node(item); }
+        catch (error) { return false; }
         if (this._head === null) {
             this._head = node;
             this._tail = node;
@@ -112,9 +114,7 @@ class LinearList<T> implements ILinear<T> {
             return val;
         } else {
             let pre = this._head;
-            while (pre!.next !== this._tail) {
-                pre = pre!.next;
-            }
+            while (pre!.next !== this._tail) pre = pre!.next;
             const val = this._tail!.val;
             pre!.next = null;
             this._tail = pre;
@@ -126,7 +126,9 @@ class LinearList<T> implements ILinear<T> {
     insert(index: number, item: NonNullable<T>): boolean {
         if (!Number.isInteger(index) || index < 0 || index > this._length) return false;
 
-        const node = new Node(item);
+        let node: Node<T> | null = null;
+        try { node = new Node(item); }
+        catch (e) { return false; }
         if (this._length === 0) {
             this._head = node;
             this._tail = node;
@@ -138,9 +140,7 @@ class LinearList<T> implements ILinear<T> {
             this._tail = node;
         } else {
             let pre = this._head;
-            for (let i = 0; i < index - 1; i++) {
-                pre = pre!.next;
-            }
+            for (let i = 0; i < index - 1; i++) pre = pre!.next;
             node.next = pre!.next;
             pre!.next = node;
         }
@@ -164,9 +164,7 @@ class LinearList<T> implements ILinear<T> {
             return val;
         } else {
             let pre = this._head;
-            for (let i = 0; i < index - 1; i++) {
-                pre = pre!.next;
-            }
+            for (let i = 0; i < index - 1; i++) pre = pre!.next;
             const val = pre!.next!.val;
             pre!.next = pre!.next!.next;
             this._length--;
@@ -184,18 +182,14 @@ class LinearList<T> implements ILinear<T> {
     get(index: number): T | null {
         if (!Number.isInteger(index) || index < 0 || index >= this._length) return null;
         let node = this._head;
-        for (let i = 0; i < index; i++) {
-            node = node!.next;
-        }
+        for (let i = 0; i < index; i++) node = node!.next;
         return node!.val;
     }
 
     set(index: number, item: NonNullable<T>): boolean {
         if (!Number.isInteger(index) || index < 0 || index >= this._length) return false;
         let node = this._head;
-        for (let i = 0; i < index; i++) {
-            node = node!.next;
-        }
+        for (let i = 0; i < index; i++) node = node!.next;
         node!.val = item;
         return true;
     }
@@ -211,7 +205,8 @@ class LinearArray<T> implements ILinear<T> {
     get length(): number { return this._array.length; }
 
     push(item: NonNullable<T>): boolean {
-        this._array.push(item);
+        try { this._array.push(item); }
+        catch (e) { return false; }
         return true;
     }
 
@@ -242,7 +237,8 @@ class LinearArray<T> implements ILinear<T> {
 
     set(index: number, item: NonNullable<T>): boolean {
         if (!Number.isInteger(index) || index < 0 || index >= this._array.length) return false;
-        this._array[index] = item;
+        try { this._array[index] = item; }
+        catch (e) { return false; }
         return true;
     }
 
