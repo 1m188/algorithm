@@ -57,7 +57,15 @@
          * @param {*} index 索引
          * @return {*} 返回指定索引处的元素
          */
-        at(index) { throw new Error('必须重写 at 方法') }
+        get(index) { throw new Error('必须重写 get 方法') }
+
+        /**
+         * 设置指定索引处的元素，如果索引不存在则返回 false
+         * @param {*} index 索引
+         * @param {*} element 待设置的元素
+         * @return {boolean} 设置成功返回 true，否则返回 false
+         */
+        set(index, element) { throw new Error('必须重写 set 方法') }
 
     }
 
@@ -113,7 +121,9 @@
         get size() { return this.#size }
 
         push(element) {
-            let node = new Node(element);
+            let node = null;
+            try { node = new Node(element); }
+            catch (error) { return false; }
             if (this.#size === 0) {
                 this.#head = node;
                 this.#tail = node;
@@ -133,9 +143,7 @@
                 this.#tail = null;
             } else {
                 let prev = this.#head;
-                while (prev.next !== this.#tail) {
-                    prev = prev.next;
-                }
+                while (prev.next !== this.#tail) prev = prev.next;
                 prev.next = null;
                 this.#tail = prev;
             }
@@ -144,9 +152,11 @@
         }
 
         insert(index, element) {
-            if (index < 0 || index > this.#size) return false; // 返回false表示插入失败
+            if (!Number.isInteger(index) || index < 0 || index > this.#size) return false; // 返回false表示插入失败
 
-            let node = new Node(element);
+            let node = null;
+            try { node = new Node(element); }
+            catch (error) { return false; }
             if (index === 0 && this.#size === 0) {
                 this.#head = node;
                 this.#tail = node;
@@ -158,9 +168,7 @@
                 this.#tail = node;
             } else {
                 let prev = this.#head;
-                for (let i = 0; i < index - 1; i++) {
-                    prev = prev.next;
-                }
+                for (let i = 0; i < index - 1; i++) prev = prev.next;
                 node.next = prev.next;
                 prev.next = node;
             }
@@ -169,7 +177,7 @@
         }
 
         remove(index) {
-            if (index < 0 || index >= this.#size) return false; // 返回false表示删除失败
+            if (!Number.isInteger(index) || index < 0 || index >= this.#size) return false; // 返回false表示删除失败
 
             if (this.#size === 1) {
                 this.#head = null;
@@ -180,9 +188,7 @@
                 this.#head = this.#head.next;
             } else {
                 let prev = this.#head;
-                for (let i = 0; i < index - 1; i++) {
-                    prev = prev.next;
-                }
+                for (let i = 0; i < index - 1; i++) prev = prev.next;
                 prev.next = prev.next.next;
             }
             this.#size--;
@@ -192,18 +198,24 @@
         search(element) {
             let node = this.#head;
             for (let i = 0; i < this.#size; i++, node = node.next) {
-                if (node.val === element) {
-                    return i;
-                }
+                if (node.val === element) return i;
             }
             return -1;
         }
 
-        at(index) {
-            if (index < 0 || index >= this.#size) throw new Error('Index out of range');
+        get(index) {
+            if (!Number.isInteger(index) || index < 0 || index >= this.#size) throw new Error('Index out of range');
             let node = this.#head;
             for (let i = 0; i < index; i++) node = node.next;
             return node.val;
+        }
+
+        set(index, element) {
+            if (!Number.isInteger(index) || index < 0 || index >= this.#size) return false;
+            let node = this.#head;
+            for (let i = 0; i < index; i++) node = node.next;
+            node.val = element;
+            return true;
         }
 
     }
@@ -221,28 +233,42 @@
 
         get size() { return this.#arr.length; }
 
-        push(element) { this.#arr.push(element); return true; }
+        push(element) {
+            try { this.#arr.push(element); }
+            catch (error) { return false; }
+            return true;
+        }
 
-        pop() { this.#arr.pop(); return true; }
+        pop() {
+            if (this.#arr.length === 0) return false;
+            this.#arr.pop();
+            return true;
+        }
 
         insert(index, element) {
-            if (index < 0 || index > this.#arr.length) return false;
+            if (!Number.isInteger(index) || index < 0 || index > this.#arr.length) return false;
             if (index === this.#arr.length) return this.push(element);
             this.#arr.splice(index, 0, element);
             return true;
         }
 
         remove(index) {
-            if (index < 0 || index >= this.#arr.length) return false;
+            if (!Number.isInteger(index) || index < 0 || index >= this.#arr.length) return false;
             this.#arr.splice(index, 1);
             return true;
         }
 
         search(element) { return this.#arr.indexOf(element); }
 
-        at(index) {
-            if (index < 0 || index >= this.#arr.length) throw new Error('Index out of range');
+        get(index) {
+            if (!Number.isInteger(index) || index < 0 || index >= this.#arr.length) throw new Error('Index out of range');
             return this.#arr[index];
+        }
+
+        set(index, element) {
+            if (!Number.isInteger(index) || index < 0 || index >= this.#arr.length) return false;
+            this.#arr[index] = element;
+            return true;
         }
 
     }
@@ -264,33 +290,41 @@
         for (let i = 0; i < 10; i++) {
             linear.push(i);
             assert(linear.size === i + 1, `Push failed, expected linear.size === ${i} + 1`);
-            assert(linear.at(i) === i, `Push failed, expected linear.at(${i}) === ${i}, got ${linear.at(i)} === ${i}`);
+            assert(linear.get(i) === i, `Push failed, expected linear.get(${i}) === ${i}, got ${linear.get(i)} === ${i}`);
             assert(linear.search(i) === i, `Push failed, expected linear.search(${i}) === ${i}, got ${linear.search(i)} === ${i}`);
         }
 
         linear.insert(5, 100);
-        assert(linear.at(5) === 100, `Insert failed, expected linear.at(5) === 100`);
+        assert(linear.get(5) === 100, `Insert failed, expected linear.get(5) === 100`);
         assert(linear.search(100) === 5, `Insert failed, expected linear.search(100) === 5`);
 
+        linear.set(5, 200);
+        assert(linear.get(5) === 200, `Set failed, expected linear.get(5) === 200`);
+        assert(linear.search(100) == -1, `Set failed, expected linear.search(100) === -1`);
+        assert(linear.search(200) === 5, `Set failed, expected linear.search(200) === 5`);
+
         linear.remove(5);
-        assert(linear.at(5) === 5, `Remove failed, expected linear.at(5) === 5, got ${linear.at(5)} === 5`);
+        assert(linear.get(5) === 5, `Remove failed, expected linear.get(5) === 5, got ${linear.get(5)} === 5`);
         assert(linear.search(100) === -1, `Remove failed, expected linear.search(100) === -1`);
 
         for (let i = 10; i > 0; i--) {
             assert(linear.size === i, `Pop failed, expected linear.size === ${i}`);
-            assert(linear.at(linear.size - 1) === i - 1, `Pop failed, expected linear.at(${linear.size - 1}) === ${i - 1}`);
+            assert(linear.get(linear.size - 1) === i - 1, `Pop failed, expected linear.get(${linear.size - 1}) === ${i - 1}`);
             assert(linear.search(i - 1) === linear.size - 1, `Pop failed, expected linear.search(${i - 1}) === ${linear.size - 1}`);
             linear.pop();
         }
 
-        console.log('All tests passed!');
-
     }
 
-    // 测试
+
+    /** 测试 */
+
     console.log('Testing LinearList...');
     test(new LinearList());
+    console.log('All tests passed!');
+
     console.log('Testing LinearArray...');
     test(new LinearArray());
+    console.log('All tests passed!');
 
 })();
