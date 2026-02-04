@@ -10,3 +10,6 @@ AllowShortIfStatementsOnASingleLine: true
 
 # 访问说明符(public、private等)的偏移
 AccessModifierOffset: -4
+
+# 尾部插入空行
+InsertNewlineAtEOF: true
