@@ -5,11 +5,11 @@
 export { };
 
 /**
-     * 线性查找
-     * @param {number[]} arr 数组
-     * @param {number} value 要查找的值
-     * @return {number} 返回值在数组中的索引，如果不存在则返回 -1
-     */
+ * 线性查找
+ * @param {number[]} arr 数组
+ * @param {number} value 要查找的值
+ * @return {number} 返回值在数组中的索引，如果不存在则返回 -1
+ */
 function seqSearch(arr, value) {
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] === value) { return i; }
