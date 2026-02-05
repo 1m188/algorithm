@@ -42,40 +42,36 @@ function binSearch<T>(arr: T[], target: T): number {
  */
 function assert(condition: boolean, msg: string = ''): void { if (!condition) throw new Error(msg); }
 
-(() => {
+let arr: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+assert(seqSearch(arr, 1) === 0);
+assert(seqSearch(arr, 10) === 9);
+assert(seqSearch(arr, 5) === 4);
+assert(seqSearch(arr, 11) === -1);
 
-    let arr: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    assert(seqSearch(arr, 1) === 0);
-    assert(seqSearch(arr, 10) === 9);
-    assert(seqSearch(arr, 5) === 4);
-    assert(seqSearch(arr, 11) === -1);
+arr = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+assert(seqSearch(arr, 1) === 9);
+assert(seqSearch(arr, 10) === 0);
+assert(seqSearch(arr, 5) === 5);
+assert(seqSearch(arr, 11) === -1);
 
-    arr = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-    assert(seqSearch(arr, 1) === 9);
-    assert(seqSearch(arr, 10) === 0);
-    assert(seqSearch(arr, 5) === 5);
-    assert(seqSearch(arr, 11) === -1);
+arr = [1];
+assert(seqSearch(arr, 1) === 0);
+assert(seqSearch(arr, 2) === -1);
 
-    arr = [1];
-    assert(seqSearch(arr, 1) === 0);
-    assert(seqSearch(arr, 2) === -1);
+arr = [];
+assert(seqSearch(arr, 1) === -1);
 
-    arr = [];
-    assert(seqSearch(arr, 1) === -1);
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+assert(binSearch(arr, 1) === 0);
+assert(binSearch(arr, 10) === 9);
+assert(binSearch(arr, 5) === 4);
+assert(binSearch(arr, 11) === -1);
 
-    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    assert(binSearch(arr, 1) === 0);
-    assert(binSearch(arr, 10) === 9);
-    assert(binSearch(arr, 5) === 4);
-    assert(binSearch(arr, 11) === -1);
+arr = [1];
+assert(binSearch(arr, 1) === 0);
+assert(binSearch(arr, 2) === -1);
 
-    arr = [1];
-    assert(binSearch(arr, 1) === 0);
-    assert(binSearch(arr, 2) === -1);
+arr = [];
+assert(binSearch(arr, 1) === -1);
 
-    arr = [];
-    assert(binSearch(arr, 1) === -1);
-
-    console.log('All tests passed!');
-
-})();
+console.log('All tests passed!');
