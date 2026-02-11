@@ -4,14 +4,14 @@
 
 
 def quickpow(x: float, n: int) -> float:
+    if x == 0:
+        return 0
     if n < 0:
         return quickpow(1 / x, -n)
     if n == 0:
         return 1
     if n == 1:
         return x
-    if x == 0:
-        return 0
     return quickpow(x * x, n >> 1) * (1 if n & 0x1 == 0 else x)
 
 
@@ -26,14 +26,16 @@ def quickpow_circle(x: float, n: int) -> float:
     :return: x^n
     :rtype: float
     """
+
+    if x == 0:
+        return 0
     if n < 0:
         return quickpow_circle(1 / x, -n)
     if n == 0:
         return 1
     if n == 1:
         return x
-    if x == 0:
-        return 0
+
     result = 1
     while n > 0:
         if n & 0x1 == 1:
