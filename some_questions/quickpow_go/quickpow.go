@@ -2,7 +2,7 @@
 快速幂
 */
 
-package quickpow
+package quickpowgo
 
 import (
 	"fmt"

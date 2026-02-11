@@ -1,4 +1,4 @@
-package quickpow
+package quickpowgo
 
 import (
 	"math/big"
