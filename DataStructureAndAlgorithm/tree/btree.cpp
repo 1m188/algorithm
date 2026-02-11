@@ -1,3 +1,7 @@
+/*
+基于 C++ 的二叉树实现
+*/
+
 #include "functional"
 #include "iostream"
 #include "queue"
