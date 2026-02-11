@@ -6,7 +6,7 @@
 经典回溯算法
 */
 
-package queen8
+package queen8go
 
 // 推广到一般 N 皇后问题上
 func QueenN(n int) int {

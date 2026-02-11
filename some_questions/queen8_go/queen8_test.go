@@ -1,4 +1,4 @@
-package queen8
+package queen8go
 
 import "testing"
 
