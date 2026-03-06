@@ -1,0 +1,103 @@
+#
+# @lc app=leetcode.cn id=3842 lang=python3
+# @lcpr version=30204
+#
+# [3842] 切换打开灯泡
+#
+# https://leetcode.cn/problems/toggle-light-bulbs/description/
+#
+# algorithms
+# Easy (79.06%)
+# Likes:    1
+# Dislikes: 0
+# Total Accepted:    2.2K
+# Total Submissions: 2.8K
+# Testcase Example:  '[10,30,20,10]'
+#
+# 给你一个整数数组 bulbs，其中每个元素的取值范围为 1 到 100。
+#
+# 有 100 个电灯泡，按从 1 到 100 编号，初始时所有灯泡均为关闭状态。
+#
+# 对于数组 bulbs 中的每一个元素 bulbs[i]，执行以下操作：
+#
+#
+# 如果第 bulbs[i] 个灯泡当前是关闭状态，将其打开。
+# 如果第 bulbs[i] 个灯泡当前是打开状态，将其关闭。
+#
+#
+# 返回一个整数列表，表示最终处于打开状态的灯泡编号，按升序排列。如果没有灯泡是打开的，返回一个空列表。
+#
+#
+#
+# 示例 1：
+#
+#
+# 输入： bulbs = [10,30,20,10]
+#
+# 输出： [20,30]
+#
+# 解释：
+#
+#
+# 第 bulbs[0] = 10 个灯泡当前是关闭状态，将其打开。
+# 第 bulbs[1] = 30 个灯泡当前是关闭状态，将其打开。
+# 第 bulbs[2] = 20 个灯泡当前是关闭状态，将其打开。
+# 第 bulbs[3] = 10 个灯泡当前是打开状态，将其关闭。
+# 最终，第 20 个和第 30 个灯泡处于打开状态。
+#
+#
+#
+# 示例 2：
+#
+#
+# 输入： bulbs = [100,100]
+#
+# 输出： []
+#
+# 解释：
+#
+#
+# 第 bulbs[0] = 100 个灯泡当前是关闭状态，将其打开。
+# 第 bulbs[1] = 100 个灯泡当前是打开状态，将其关闭。
+# 最终，没有灯泡处于打开状态。
+#
+#
+#
+#
+#
+# 提示：
+#
+#
+# 1 <= bulbs.length <= 100
+# 1 <= bulbs[i] <= 100
+#
+#
+#
+
+
+# @lcpr-template-start
+
+
+# @lcpr-template-end
+# @lc code=start
+class Solution:
+    def toggleLightBulbs(self, bulbs: list[int]) -> list[int]:
+        flags = [False for _ in range(101)]
+        for i in bulbs:
+            flags[i] = not flags[i]
+        return [i for i in range(1, 101) if flags[i]]
+
+
+# @lc code=end
+
+
+#
+# @lcpr case=start
+# [10,30,20,10]\n
+# @lcpr case=end
+
+# @lcpr case=start
+# [100,100]\n
+# @lcpr case=end
+
+#
