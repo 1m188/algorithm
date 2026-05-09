@@ -9,3 +9,5 @@
 
 # 忽略rust生成的target目录
 /target/
+
+*.pyc
