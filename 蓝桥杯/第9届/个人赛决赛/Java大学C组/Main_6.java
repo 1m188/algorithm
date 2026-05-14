@@ -69,72 +69,73 @@ public class Main_6 {
      * 仅需 O(√答案) 的时间。
      */
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long n = sc.nextLong();
+        try (Scanner sc = new Scanner(System.in)) {
+            long n = sc.nextLong();
 
-        if (n == 1) {
-            System.out.println(1);
-            return;
-        }
-        if (n <= 3) {
-            System.out.println(2);
-            return;
-        }
-
-        // ---------- 第一步：预计算 G[1..PRE] 和 S[1..PRE] ----------
-        // PRE 取 2×10^6 即可覆盖约 S(PRE) ≈ 1.5×10^11 的范围
-        final int PRE = 2000000;
-        final int BUF = 1 << 21; // 环形缓冲区大小
-        final int MASK = BUF - 1;
-        int[] g = new int[BUF];
-
-        g[1] = 1;
-        g[2] = 2;
-        g[3] = 2;
-        // 同时把前缀和存入 sumG（非环形）
-        long[] sumG = new long[PRE + 1];
-        sumG[1] = 1;
-        sumG[2] = 3;
-        sumG[3] = 5;
-
-        // 检查 n 是否已被初始值覆盖
-        if (sumG[3] >= n) {
-            System.out.println(3);
-            return;
-        }
-
-        int m = 4;
-        while (m <= PRE) {
-            int gm1 = g[(m - 1) & MASK];
-            int gg = g[gm1 & MASK];
-            int idx = m - gg;
-            int gm = 1 + g[idx & MASK];
-            g[m & MASK] = gm;
-            sumG[m] = sumG[m - 1] + gm;
-            if (sumG[m] >= n) {
-                System.out.println(m);
+            if (n == 1) {
+                System.out.println(1);
                 return;
             }
-            m++;
-        }
-
-        // ---------- 第二步：n 较大时，紧凑递推 ----------
-        long sum = sumG[PRE];
-        // m 从 PRE+1 开始，用 int 循环加速（G(n) < 2^31）
-        int mm = PRE + 1;
-        int mask = MASK;
-
-        while (true) {
-            int gm1 = g[(mm - 1) & mask];
-            int gg = g[gm1 & mask];
-            int gm = 1 + g[(mm - gg) & mask];
-            g[mm & mask] = gm;
-            sum += gm;
-            if (sum >= n) {
-                System.out.println(mm);
+            if (n <= 3) {
+                System.out.println(2);
                 return;
             }
-            mm++;
+
+            // ---------- 第一步：预计算 G[1..PRE] 和 S[1..PRE] ----------
+            // PRE 取 2×10^6 即可覆盖约 S(PRE) ≈ 1.5×10^11 的范围
+            final int PRE = 2000000;
+            final int BUF = 1 << 21; // 环形缓冲区大小
+            final int MASK = BUF - 1;
+            int[] g = new int[BUF];
+
+            g[1] = 1;
+            g[2] = 2;
+            g[3] = 2;
+            // 同时把前缀和存入 sumG（非环形）
+            long[] sumG = new long[PRE + 1];
+            sumG[1] = 1;
+            sumG[2] = 3;
+            sumG[3] = 5;
+
+            // 检查 n 是否已被初始值覆盖
+            if (sumG[3] >= n) {
+                System.out.println(3);
+                return;
+            }
+
+            int m = 4;
+            while (m <= PRE) {
+                int gm1 = g[(m - 1) & MASK];
+                int gg = g[gm1 & MASK];
+                int idx = m - gg;
+                int gm = 1 + g[idx & MASK];
+                g[m & MASK] = gm;
+                sumG[m] = sumG[m - 1] + gm;
+                if (sumG[m] >= n) {
+                    System.out.println(m);
+                    return;
+                }
+                m++;
+            }
+
+            // ---------- 第二步：n 较大时，紧凑递推 ----------
+            long sum = sumG[PRE];
+            // m 从 PRE+1 开始，用 int 循环加速（G(n) < 2^31）
+            int mm = PRE + 1;
+            int mask = MASK;
+
+            while (true) {
+                int gm1 = g[(mm - 1) & mask];
+                int gg = g[gm1 & mask];
+                int gm = 1 + g[(mm - gg) & mask];
+                g[mm & mask] = gm;
+                sum += gm;
+                if (sum >= n) {
+                    System.out.println(mm);
+                    return;
+                }
+                mm++;
+            }
         }
     }
 }
