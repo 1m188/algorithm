@@ -50,7 +50,7 @@
 
 import java.util.Scanner;
 
-public class Main {
+public class Main_6 {
     /*
      * Golomb 自描述序列 - 分块跳跃算法 O(G(n)^(1/2)) ≈ O(n^0.309)
      *
