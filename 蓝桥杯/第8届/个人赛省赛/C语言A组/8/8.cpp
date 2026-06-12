@@ -12,7 +12,7 @@
 输入
 ----
 第一行包含一个整数N。(1 <= n <= 100)
-以下N行每行包含一个整数Ai。(1 <= Ai <= 100) 
+以下N行每行包含一个整数Ai。(1 <= Ai <= 100)
 
 输出
 ---
@@ -20,25 +20,25 @@
 
 例如，
 输入：
-2  
-4  
-5   
+2
+4
+5
 
 程序应该输出：
-6  
+6
 
 再例如，
 输入：
-2  
-4  
-6    
+2
+4
+6
 
 程序应该输出：
 INF
 
 样例解释：
-对于样例1，凑不出的数目包括：1, 2, 3, 6, 7, 11。  
-对于样例2，所有奇数都凑不出来，所以有无限多个。  
+对于样例1，凑不出的数目包括：1, 2, 3, 6, 7, 11。
+对于样例2，所有奇数都凑不出来，所以有无限多个。
 
 资源约定：
 峰值内存消耗（含虚拟机） < 256M
@@ -61,12 +61,10 @@ main函数需要返回0;
 #include "iostream"
 #include "vector"
 
-//辗转相除判断最大公约数
-int gcd(int a, int b)
-{
+// 辗转相除判断最大公约数
+int gcd(int a, int b) {
     int c = a % b;
-    while (c)
-    {
+    while (c) {
         a = b;
         b = c;
         c = a % b;
@@ -74,56 +72,43 @@ int gcd(int a, int b)
     return b;
 }
 
-int main()
-{
+int main() {
     int n = 0;
     std::cin >> n;
     std::vector<int> a(n);
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         std::cin >> a[i];
     }
 
-    //判定INF，看任意两个数之间是否有互质，存在一对即有限，不然的话就无限
-    for (int i = 0; i < n - 1; i++)
-    {
-        for (int j = i + 1; j < n; j++)
-        {
-            if (gcd(a[i], a[j]) == 1)
-            {
-                goto next;
-            }
-        }
+    // 判定INF：所有数的最大公约数是否为1，若不为1则仅能凑出该公约数的倍数
+    int g = a[0];
+    for (int i = 1; i < n; i++)
+        g = gcd(g, a[i]);
+    if (g != 1) {
+        std::cout << "INF" << std::endl;
+        return 0;
     }
-    std::cout << "INF";
-    return 0;
-next:
 
-    //用一个较大的数组来做枚举，0是可以凑得出来的，小于的数都凑不出来，当某数减去某个可以凑出来的数可以被凑出来的话，则某数也可以被凑出来，
-    //据此标记能否凑出来的数
+    // 用一个较大的数组来做枚举，0是可以凑得出来的，小于的数都凑不出来，当某数减去某个可以凑出来的数可以被凑出来的话，则某数也可以被凑出来，
+    // 据此标记能否凑出来的数
     std::vector<bool> is(10000, false);
     is[0] = true;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 1; j < is.size(); j++)
-        {
-            if (a[i] <= j && is[j - a[i]])
-            {
+    for (int i = 0; i < n; i++) {
+        for (int j = 1; j < is.size(); j++) {
+            if (a[i] <= j && is[j - a[i]]) {
                 is[j] = true;
             }
         }
     }
 
-    //统计不能够被凑出来的数
+    // 统计不能够被凑出来的数
     int num = 0;
-    for (const bool &b : is)
-    {
-        if (!b)
-        {
+    for (const bool &b : is) {
+        if (!b) {
             num++;
         }
     }
-    std::cout << num;
+    std::cout << num << std::endl;
 
     return 0;
 }
