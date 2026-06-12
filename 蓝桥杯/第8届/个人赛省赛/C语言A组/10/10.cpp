@@ -63,8 +63,9 @@ main函数需要返回0;
 提交程序时，注意选择所期望的语言类型和编译器类型。
 */
 
-//暴力，暴力就完事了
+// 暴力，暴力就完事了
 
+#include "algorithm"
 #include "iostream"
 #include "vector"
 
@@ -72,20 +73,18 @@ const int size = 10000;
 
 std::vector<std::vector<bool>> is(size, std::vector<bool>(size, false));
 
-int main()
-{
+int main() {
     int n = 0;
     std::cin >> n;
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
         std::cin >> x1 >> y1 >> x2 >> y2;
-        for (int i = x1; i < x2; i++)
-        {
-            for (int j = y1; j < y2; j++)
-            {
-                if (!is[i][j])
-                {
+        // 两个对角点可能以任意顺序给出，统一为左下和右上
+        if (x1 > x2) std::swap(x1, x2);
+        if (y1 > y2) std::swap(y1, y2);
+        for (int i = x1; i < x2; i++) {
+            for (int j = y1; j < y2; j++) {
+                if (!is[i][j]) {
                     is[i][j] = true;
                 }
             }
@@ -93,18 +92,15 @@ int main()
     }
 
     int num = 0;
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size; j++)
-        {
-            if (is[i][j])
-            {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (is[i][j]) {
                 num++;
             }
         }
     }
 
-    std::cout << num;
+    std::cout << num << std::endl;
 
     return 0;
 }
