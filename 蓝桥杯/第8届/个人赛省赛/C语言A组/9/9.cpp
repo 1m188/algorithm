@@ -6,25 +6,25 @@
 
     为了公平起见，小明需要从这 N 块巧克力中切出K块巧克力分给小朋友们。切出的巧克力需要满足：
 
-    1. 形状是正方形，边长是整数  
-    2. 大小相同  
+    1. 形状是正方形，边长是整数
+    2. 大小相同
 
 例如一块6x5的巧克力可以切出6块2x2的巧克力或者2块3x3的巧克力。
 
 当然小朋友们都希望得到的巧克力尽可能大，你能帮小Hi计算出最大的边长是多少么？
 
 输入
-第一行包含两个整数N和K。(1 <= N, K <= 100000)  
-以下N行每行包含两个整数Hi和Wi。(1 <= Hi, Wi <= 100000) 
-输入保证每位小朋友至少能获得一块1x1的巧克力。   
+第一行包含两个整数N和K。(1 <= N, K <= 100000)
+以下N行每行包含两个整数Hi和Wi。(1 <= Hi, Wi <= 100000)
+输入保证每位小朋友至少能获得一块1x1的巧克力。
 
 输出
 输出切出的正方形巧克力最大可能的边长。
 
 样例输入：
-2 10  
-6 5  
-5 6  
+2 10
+6 5
+5 6
 
 样例输出：
 2
@@ -47,7 +47,7 @@ main函数需要返回0;
 
 */
 
-//又是看了别人的思路才写出来......
+// 又是看了别人的思路才写出来......
 
 /*
 思路：假如边长为code，一块可分为 （长除以code）乘上（宽除以code） 块
@@ -57,36 +57,32 @@ main函数需要返回0;
 #include "iostream"
 #include "vector"
 
-int main()
-{
+int main() {
     int N = 0, K = 0;
     std::cin >> N >> K;
     std::vector<std::pair<int, int>> vec(N);
-    for (int i = 0; i < N; i++)
-    {
+    for (int i = 0; i < N; i++) {
         std::cin >> vec[i].first >> vec[i].second;
     }
 
-    int code = 1;
-    while (true)
-    {
-        int sum = 0;
+    // 二分查找：找最大的边长使得能切出至少 K 块
+    int lo = 1, hi = 100000, ans = 0;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        long long sum = 0; // 使用 long long 防止溢出
         for (auto cit = vec.cbegin(); cit < vec.cend(); cit++)
+            sum += (long long)(cit->first / mid) * (cit->second / mid);
+
+        if (sum >= K) // 能切够 K 块，尝试更大的边长
         {
-            sum += (cit->first / code) * (cit->second / code);
-        }
-        if (sum > K)
-        {
-            code++;
-        }
-        else
-        {
-            code--;
-            break;
+            ans = mid;
+            lo = mid + 1;
+        } else {
+            hi = mid - 1;
         }
     }
 
-    std::cout << code;
+    std::cout << ans << std::endl;
 
     return 0;
 }
