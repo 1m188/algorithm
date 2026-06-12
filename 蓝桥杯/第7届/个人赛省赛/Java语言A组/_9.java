@@ -1,3 +1,4 @@
+/*
 
 交换瓶子
 
@@ -46,3 +47,38 @@ CPU消耗  < 1000ms
 注意：主类的名字必须是：Main，否则按无效代码处理。
 
 
+
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class _9 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N + 1]; // 1-indexed
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 1; i <= N; i++)
+            arr[i] = Integer.parseInt(st.nextToken());
+
+        boolean[] visited = new boolean[N + 1];
+        int cycles = 0;
+
+        // 遍历每个位置，找置换环
+        for (int i = 1; i <= N; i++) {
+            if (visited[i])
+                continue;
+            cycles++;
+            int j = i;
+            while (!visited[j]) {
+                visited[j] = true;
+                j = arr[j];
+            }
+        }
+
+        // 每个长度为 L 的环需要 L-1 次交换，总共 N - cycles 次
+        System.out.println(N - cycles);
+    }
+}
