@@ -21,32 +21,25 @@
 */
 
 #include "iostream"
-#include "stack"
 #include "vector"
 
-//方案数目
+// 方案数目
 int num = 0;
-//判断当前的点是否被线走过了
+// 判断当前的点是否被线走过了
 bool judge[7][7]{false};
-//每次向上下左右四个方向走
+// 每次向上下左右四个方向走
 const std::vector<std::pair<int, int>> choice{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-void dfs(int row = 3, int col = 3)
-{
-    //如果走到底了则数目+1
-    if (row == 0 || row == 6 || col == 0 || col == 6)
-    {
+void dfs(int row = 3, int col = 3) {
+    // 如果走到底了则数目+1
+    if (row == 0 || row == 6 || col == 0 || col == 6) {
         num++;
-    }
-    else
-    {
-        //否则对四种方向的选择走过，记得标记
-        for (const std::pair<int, int> &pair : choice)
-        {
+    } else {
+        // 否则对四种方向的选择走过，记得标记
+        for (const std::pair<int, int> &pair : choice) {
             int newRow = row + pair.first;
             int newCol = col + pair.second;
-            if (!judge[newRow][newCol])
-            {
+            if (!judge[newRow][newCol]) {
                 judge[newRow][newCol] = true;
                 judge[3 * 2 - newRow][3 * 2 - newCol] = true;
                 dfs(newRow, newCol);
@@ -57,12 +50,11 @@ void dfs(int row = 3, int col = 3)
     }
 }
 
-int main()
-{
-    //初始点
+int main() {
+    // 初始点
     judge[3][3] = true;
     dfs();
-    //最后的结果/4，因为旋转对称也算一样的
+    // 最后的结果/4，因为旋转对称也算一样的
     std::cout << num / 4 << std::endl;
     return 0;
 }
