@@ -1,7 +1,7 @@
 /*
 标题：跳蚱蜢
 
-如图 p1.png 所示： 
+如图 p1.png 所示：
 有9只盘子，排成1个圆圈。
 其中8只盘子内装着8只蚱蜢，有一个是空盘。
 我们把这些蚱蜢顺时针编号为 1~8
@@ -17,61 +17,53 @@
 
 #include "iostream"
 #include "queue"
+#include "unordered_set"
 
 std::queue<int> queue;
 std::queue<int> qu;
-bool isRepeat[987654322] = {false};
+std::unordered_set<int> visited; // 替代原近 1GB 的布尔数组，仅记录已访问状态
 int d[4] = {-2, -1, 1, 2};
 int a[9]{};
 
-int sum(int *arr)
-{
+int sum(int *arr) {
     int num = 0;
-    for (int i = 0; i < 9; i++)
-    {
+    for (int i = 0; i < 9; i++) {
         num *= 10;
         num += arr[i];
     }
     return num;
 }
 
-void bfs()
-{
+void bfs() {
     queue.push(912345678);
-    isRepeat[912345678] = true;
+    visited.insert(912345678);
     qu.push(1);
 
-    while (true)
-    {
+    while (true) {
         int num = queue.front();
         queue.pop();
         int index = 8;
         int zero = 0;
         int count = qu.front();
         qu.pop();
-        while (num)
-        {
+        while (num) {
             a[index] = num % 10;
-            if (a[index] == 9)
-            {
+            if (a[index] == 9) {
                 zero = index;
             }
             index--;
             num /= 10;
         }
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             std::swap(a[zero], a[(zero + d[i] + 9) % 9]);
             int num = sum(a);
-            if (!isRepeat[num])
-            {
-                if (num == 987654321)
-                {
+            if (visited.find(num) == visited.end()) {
+                if (num == 987654321) {
                     std::cout << count << std::endl;
                     return;
                 }
                 queue.push(num);
-                isRepeat[num] = true;
+                visited.insert(num);
                 qu.push(count + 1);
             }
             std::swap(a[zero], a[(zero + d[i] + 9) % 9]);
@@ -79,8 +71,7 @@ void bfs()
     }
 }
 
-int main()
-{
+int main() {
     bfs();
     return 0;
 }
