@@ -1,4 +1,4 @@
-﻿
+/*
 密码脱落
 
 X星球的考古学家发现了一批古代留下来的密码。
@@ -27,8 +27,34 @@ ABDCDCBABC
 CPU消耗  < 3000ms
 
 
-请严格按要求输出，不要画蛇添足地打印类似：“请您输入...” 的多余内容。
+请严格按要求输出，不要画蛇添足地打印类似："请您输入..." 的多余内容。
 
 所有代码放在同一个源文件中，调试通过后，拷贝提交该源码。
 注意：不要使用package语句。不要使用jdk1.7及以上版本的特性。
 注意：主类的名字必须是：Main，否则按无效代码处理。
+*/
+
+import java.util.Scanner;
+
+public class _10 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        sc.close();
+
+        int n = s.length();
+        // dp[i][j] = s[i..j] 的最长回文子序列长度
+        int[][] dp = new int[n][n];
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (s.charAt(i) == s.charAt(j))
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                else
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+            }
+        }
+        // 至少脱落的种子数 = 原长度 - 最长回文子序列长度
+        System.out.println(n - dp[0][n - 1]);
+    }
+}
