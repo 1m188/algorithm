@@ -64,7 +64,6 @@ X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X
  * 已知其中的最小值对应示数 2086458231，按比例缩放，
  * 最大值 = max * (2086458231 / min)，取整输出。
  */
-#include <algorithm>
 #include <iostream>
 using namespace std;
 
