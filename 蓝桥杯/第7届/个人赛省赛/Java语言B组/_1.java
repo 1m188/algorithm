@@ -1,4 +1,4 @@
-
+/*
 煤球数目
 
 有一堆煤球，堆成三角棱锥形。具体：
@@ -11,3 +11,13 @@
 
 请填表示煤球总数目的数字。
 注意：你提交的应该是一个整数，不要填写任何多余的内容或说明性文字。
+*/
+public class _1 {
+    public static void main(String[] args) {
+        // 第 i 层有 i*(i+1)/2 个煤球，求前 100 层总和
+        int sum = 0;
+        for (int i = 1; i <= 100; i++)
+            sum += i * (i + 1) / 2;
+        System.out.println(sum);
+    }
+}
