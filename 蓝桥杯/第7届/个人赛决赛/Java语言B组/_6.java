@@ -1,0 +1,395 @@
+/*
+
+圆圈舞 
+
+春天温暖的阳光照耀着大地，正是草原上的小动物们最快乐的时候。小动物们在草原上开了一个舞会，欢度这美好的时光。
+
+舞会上最重要的一个环节就是跳圆舞曲，n只小动物手拉手围成一大圈，随着音乐跳起来。在跳的过程中，小动物们可能会变换队形。它们的变换方式是动物A松开自己右手，动物B松开自己的左手，动物A和B手拉到一起，而它们对应的松开的手（如果有的话）也拉到一起。
+
+例如，假设有10只小动物，按顺序围成一圈，动物1的右手拉着动物2的左手，动物2的右手拉着动物3的左手，依次类推，最后动物10的右手拉着动物1的左手。如果通过动物2和8变换队形，则动物2的右手拉着动物8的左手，而对应的动物3的左手拉着动物7的右手，这样形成了1-2-8-9-10和3-4-5-6-7两个圈。如果此时通过动物2和6变换队形，则将形成1-2-6-7-3-4-5-8-9-10一个大圈。注意，如果此时通过动物1和2变换队形，那么队形不会改变，因为动物1的右手和动物2的左手松开后又拉到一起了。
+
+在跳舞的过程中，每个动物i都有一个欢乐值Hi和一个感动值Fi。
+如果两个动物在一个圈中，欢乐值会彼此影响，产生欢乐能量。如果两个动物i, j（i≠j）在同一个大小为t的圈中，而动物i在动物j右手的第p个位置（动物j右手的第1个位置就是动物j右手所拉着的动物，而第2个位置就是右手第1个位置的动物右手拉着的动物，依次类推），则产生的欢乐能量为(t-p)*Hj*Fi。在跳舞的过程中，动物们的欢乐值和感动值有可能发生变化。
+
+圆舞曲开始的时候，所有的动物按编号顺序围成一个圈，动物n右手的第i个位置正好是动物i。现在已知小动物们变换队形的过程和欢乐值、感动值变化的过程，求每次变换后所有动物所产生的欢迎能量之和。
+
+【输入格式】
+输入的第一行包含一个整数n，表示动物的数量。
+接下来n行，每行两个用空格分隔的整数Hi, Fi，按编号顺序给出每只动物的欢乐值和感动值。
+接下来一行包含一个整数m，表示队形、欢乐值、感动值的变化次数。
+接下来m行，每行三个用空格分隔的整数k, p, q，当k=1时，表示小动物们通过动物p和动物q变换了队形，当k=2时，表示动物p的欢乐值变为q，当k=3时，表示动物p的感动值变为了q。
+
+【输出格式】
+输出m行，每行一个整数，表示每次变化后所有动物产生的能量之和。
+答案可能很大，你需要计算答案除以1000000007的余数。
+
+【样例输入】
+10
+1 1
+1 1
+1 1
+1 1
+1 1
+1 1
+1 1
+1 1
+1 1
+1 1
+9
+1 2 8
+1 2 6
+2 8 10
+3 5 10
+1 1 2
+1 2 1
+2 5 5
+1 4 8
+1 4 5
+
+【样例输出】
+100
+450
+855
+1341
+1341
+811
+923
+338
+923
+
+【数据规模与约定】
+对于20%的数据，2<=n,m<=100。
+对于30%的数据，2<=n,m<=1000。
+另有20%的数据，只有k=1的操作且Hi,Fi均为1。
+另有20%的数据，只有k=1或2的操作且Fi均为1。
+对于100%的数据，2<=n,m<=100000，0<=Hi,Fi<=10^9，1<=k<=3，k=1时1<=p,q<=n且p≠q，k=2或3时1<=p<=n且0<=q<=10^9。
+
+资源约定：
+峰值内存消耗 < 256M
+CPU消耗  < 5000ms
+
+请严格按要求输出，不要画蛇添足地打印类似："请您输入..." 的多余内容。
+
+所有代码放在同一个源文件中，调试通过后，拷贝提交该源码。
+注意：不要使用package语句。不要使用jdk1.7及以上版本的特性。
+注意：主类的名字必须是：Main，否则按无效代码处理。
+
+*/
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class _6 {
+    static final long MOD = 1000000007;
+
+    // ---------- Treap 节点 ----------
+    static class Nd {
+        int id; // 动物编号
+        long H, F; // 欢乐值、感动值
+        int sz; // 子树大小
+        long sH, sF; // 子树 H/F 之和（模 MOD）
+        long pH, pF; // Σ 位置 × 值（相对本段起点，模 MOD）
+        long p0; // Σ H×F（模 MOD）
+        long Z; // Σ F_i × prefH_i（模 MOD）
+        long ef; // Σ_{i<j 段内} (j-i)·H_i·F_j（模 MOD）
+        long eb; // Σ_{i>j 段内} (i-j)·H_i·F_j（模 MOD）
+        Nd l, r, p; // 左右子节点、父节点
+        int pri; // 随机优先级
+
+        Nd(int id, long H, long F, int pri) {
+            this.id = id;
+            this.H = H;
+            this.F = F;
+            this.pri = pri;
+            this.sz = 1;
+            this.sH = H;
+            this.sF = F;
+            this.pH = 0;
+            this.pF = 0;
+            this.p0 = H * F % MOD;
+            this.Z = H * F % MOD;
+        }
+    }
+
+    static Nd[] nd = new Nd[100005]; // 动物编号 → 节点
+    static int[] R = new int[100005]; // R[i] = 动物 i 右手牵的动物
+    static int[] L = new int[100005]; // L[i] = 动物 i 左手被谁牵（即 right[x]=i 的那个 x）
+    static Random rnd = new Random(12345);
+
+    // ---------- 安全取模运算 ----------
+    static long M(long x) {
+        return (x % MOD + MOD) % MOD;
+    }
+
+    // ---------- 上推更新 ----------
+    static void upd(Nd x) {
+        if (x == null)
+            return;
+        Nd lc = x.l, rc = x.r;
+        int sl = gsz(lc);
+
+        x.sz = 1 + sl + gsz(rc);
+        x.sH = (x.H + gsH(lc) + gsH(rc)) % MOD;
+        x.sF = (x.F + gsF(lc) + gsF(rc)) % MOD;
+
+        // 位置加权之和：左子树不变，自身偏移 sl，右子树偏移 sl+1
+        x.pH = (gpH(lc)
+                + M((long) sl * x.H)
+                + gpH(rc)
+                + M((long) (sl + 1) * gsH(rc))) % MOD;
+        x.pF = (gpF(lc)
+                + M((long) sl * x.F)
+                + gpF(rc)
+                + M((long) (sl + 1) * gsF(rc))) % MOD;
+
+        // 点积
+        x.p0 = (x.H * x.F % MOD + gp0(lc) + gp0(rc)) % MOD;
+
+        // Z = Σ F_i × prefH_i（prefH_i 含自身）
+        long preH = (gsH(lc) + x.H) % MOD;
+        x.Z = (gZ(lc)
+                + M(preH * x.F)
+                + gZ(rc)
+                + M(preH * gsF(rc))) % MOD;
+
+        // ---- Efwd: Σ_{i<j} (j-i)·H_i·F_j ----
+        long f = (gef(lc) + gef(rc)) % MOD;
+        // 左子树 × 自身：j=自身, i∈左, j-i = sl - local_i
+        f = (f + x.F * M((long) sl * gsH(lc) - gpH(lc))) % MOD;
+        // 左子树 × 右子树：i∈左, j∈右, j-i = sl + 1 + local_j - local_i
+        f = (f + M((long) (sl + 1) * gsH(lc) % MOD * gsF(rc))
+                + M(gsH(lc) * gpF(rc))
+                - M(gpH(lc) * gsF(rc))) % MOD;
+        // 自身 × 右子树：i=自身, j∈右, j-i = 1 + local_j
+        f = (f + x.H * gsF(rc) + x.H * gpF(rc)) % MOD;
+        x.ef = M(f);
+
+        // ---- Ebwd: Σ_{i>j} (i-j)·H_i·F_j ----
+        long b = (geb(lc) + geb(rc)) % MOD;
+        // 自身 × 左子树：i=自身, j∈左, i-j = sl - local_j
+        b = (b + x.H * M((long) sl * gsF(lc) - gpF(lc))) % MOD;
+        // 右子树 × 左子树：i∈右, j∈左, i-j = sl + 1 + local_i - local_j
+        b = (b + M((long) (sl + 1) * gsH(rc) % MOD * gsF(lc))
+                + M(gpH(rc) * gsF(lc))
+                - M(gsH(rc) * gpF(lc))) % MOD;
+        // 右子树 × 自身：i∈右, j=自身, i-j = 1 + local_i
+        b = (b + x.F * gsH(rc) + x.F * gpH(rc)) % MOD;
+        x.eb = M(b);
+    }
+
+    // 便捷取值函数
+    static int gsz(Nd x) {
+        return x == null ? 0 : x.sz;
+    }
+
+    static long gsH(Nd x) {
+        return x == null ? 0 : x.sH;
+    }
+
+    static long gsF(Nd x) {
+        return x == null ? 0 : x.sF;
+    }
+
+    static long gpH(Nd x) {
+        return x == null ? 0 : x.pH;
+    }
+
+    static long gpF(Nd x) {
+        return x == null ? 0 : x.pF;
+    }
+
+    static long gp0(Nd x) {
+        return x == null ? 0 : x.p0;
+    }
+
+    static long gZ(Nd x) {
+        return x == null ? 0 : x.Z;
+    }
+
+    static long gef(Nd x) {
+        return x == null ? 0 : x.ef;
+    }
+
+    static long geb(Nd x) {
+        return x == null ? 0 : x.eb;
+    }
+
+    // ---------- Split / Merge（隐式 Treap，维护父指针） ----------
+    static Nd[] split(Nd x, int k) {
+        if (x == null)
+            return new Nd[] { null, null };
+        x.p = null;
+        if (gsz(x.l) >= k) {
+            Nd[] sp = split(x.l, k);
+            x.l = sp[1];
+            if (sp[1] != null)
+                sp[1].p = x;
+            upd(x);
+            if (sp[0] != null)
+                sp[0].p = null;
+            return new Nd[] { sp[0], x };
+        } else {
+            Nd[] sp = split(x.r, k - gsz(x.l) - 1);
+            x.r = sp[0];
+            if (sp[0] != null)
+                sp[0].p = x;
+            upd(x);
+            if (sp[1] != null)
+                sp[1].p = null;
+            return new Nd[] { x, sp[1] };
+        }
+    }
+
+    static Nd merge(Nd a, Nd b) {
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+        if (a.pri > b.pri) {
+            a.p = null;
+            a.r = merge(a.r, b);
+            if (a.r != null)
+                a.r.p = a;
+            upd(a);
+            return a;
+        } else {
+            b.p = null;
+            b.l = merge(a, b.l);
+            if (b.l != null)
+                b.l.p = b;
+            upd(b);
+            return b;
+        }
+    }
+
+    // ---------- 定位与旋转 ----------
+    /** 节点 x 在 Treap 中的位置（0-indexed）。 */
+    static int pos(Nd x) {
+        int p = gsz(x.l);
+        while (x.p != null) {
+            if (x.p.r == x)
+                p += 1 + gsz(x.p.l);
+            x = x.p;
+        }
+        return p;
+    }
+
+    /** 节点 x 所在 Treap 的根。 */
+    static Nd root(Nd x) {
+        while (x.p != null)
+            x = x.p;
+        return x;
+    }
+
+    /** 旋转 Treap 使节点 t 成为序列首元素。返回新根。 */
+    static Nd rot(Nd r, Nd t) {
+        int k = pos(t);
+        Nd[] sp = split(r, k);
+        return merge(sp[1], sp[0]);
+    }
+
+    // ---------- 圈子能量 ----------
+    /** 以 r 为根的圈子总能量（模 MOD）。公式: E = t×(Z-P0) - Efwd + Ebwd */
+    static long energy(Nd r) {
+        if (r == null)
+            return 0;
+        long t = r.sz % MOD;
+        return M(t * M(r.Z - r.p0) - r.ef + r.eb);
+    }
+
+    // ---------- 更新节点值后重算祖先 ----------
+    static void refresh(Nd x) {
+        while (x != null) {
+            upd(x);
+            x = x.p;
+        }
+    }
+
+    // ---------- 主程序 ----------
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        for (int i = 1; i <= n; i++) {
+            long h = sc.nextLong() % MOD;
+            long f = sc.nextLong() % MOD;
+            nd[i] = new Nd(i, h, f, rnd.nextInt());
+            R[i] = i % n + 1;
+            L[i] = (i + n - 2) % n + 1;
+        }
+
+        // 构建最初的一个大圈（顺序 1..n）
+        Nd all = null;
+        for (int i = 1; i <= n; i++)
+            all = merge(all, nd[i]);
+
+        long total = energy(all);
+
+        int m = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+
+        for (int qq = 0; qq < m; qq++) {
+            int k = sc.nextInt();
+            int p = sc.nextInt();
+            int q = sc.nextInt();
+
+            if (k == 1) {
+                int rA = R[p];
+                int lB = L[q];
+                if (rA == q) {
+                    // 已相邻，无变化
+                } else {
+                    Nd rtp = root(nd[p]);
+                    Nd rtq = root(nd[q]);
+
+                    if (rtp == rtq) {
+                        // 同圈 → 分裂为两圈
+                        total = M(total - energy(rtp));
+
+                        rtp = rot(rtp, nd[p]); // p 旋至首位
+                        int pB = pos(nd[q]);
+                        Nd[] s1 = split(rtp, pB); // 左=p..lB, 右=q..尾
+                        Nd[] s2 = split(s1[0], 1); // 左=p, 右=rA..lB
+
+                        Nd cir1 = merge(s2[0], s1[1]); // p + q..尾
+                        Nd cir2 = s2[1]; // rA..lB
+
+                        total = M(total + energy(cir1) + energy(cir2));
+                    } else {
+                        // 异圈 → 合并为一圈
+                        total = M(total - energy(rtp) - energy(rtq));
+
+                        rtp = rot(rtp, nd[p]); // p 旋至首位
+                        rtq = rot(rtq, nd[q]); // q 旋至首位
+
+                        Nd[] sA = split(rtp, 1); // sA[0]=p, sA[1]=rA..尾
+                        Nd merged = merge(sA[0], merge(rtq, sA[1]));
+
+                        total = M(total + energy(merged));
+                    }
+                }
+                // 维护右手/左手链接数组
+                R[p] = q;
+                L[q] = p;
+                R[lB] = rA;
+                L[rA] = lB;
+
+            } else if (k == 2) {
+                Nd rtp = root(nd[p]);
+                total = M(total - energy(rtp));
+                nd[p].H = q % MOD;
+                refresh(nd[p]);
+                total = M(total + energy(root(nd[p])));
+            } else {
+                Nd rtp = root(nd[p]);
+                total = M(total - energy(rtp));
+                nd[p].F = q % MOD;
+                refresh(nd[p]);
+                total = M(total + energy(root(nd[p])));
+            }
+            sb.append(total).append('\n');
+        }
+        System.out.print(sb);
+        sc.close();
+    }
+}
